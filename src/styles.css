@@ -165,3 +165,9 @@
   background: radial-gradient(ellipse at center, color-mix(in oklab, var(--lilac) 55%, transparent), transparent 70%);
   filter: blur(28px);
 }
+
+/* Blend watercolor artwork into the cream paper without a hard rectangle */
+@utility paint {
+  mix-blend-mode: multiply;
+}
+
