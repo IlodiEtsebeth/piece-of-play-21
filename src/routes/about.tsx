@@ -51,7 +51,7 @@ function AboutPage() {
             { icon: Sparkles, title: "Play-based approach", text: "Every resource is built on the belief that play is the most powerful teacher a child can have.", tone: "bg-coral/30" },
             { icon: Heart, title: "Confidence first", text: "Meaningful learning experiences that help children believe in themselves before, during and after school.", tone: "bg-lilac/40" },
           ].map((f) => (
-            <div key={f.title} className="bg-card rounded-3xl p-7 shadow-soft flex gap-4">
+            <div key={f.title} className="surface-paper rounded-[2rem] p-7 shadow-soft flex gap-4">
               <div className={`h-12 w-12 shrink-0 rounded-2xl grid place-items-center ${f.tone}`}>
                 <f.icon className="h-6 w-6 text-forest" />
               </div>
