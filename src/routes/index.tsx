@@ -69,12 +69,11 @@ function Home() {
             </div>
           </div>
           <div className="relative">
-            <div className="absolute -inset-4 rounded-[3rem] bg-sage/40 blur-2xl -z-10" />
-            <div className="rounded-[2.5rem] overflow-hidden bg-card shadow-pop rotate-1">
-              <img src={hero} alt="Children playing and learning together" width={1400} height={1200} className="w-full h-auto" />
-            </div>
-            <div className="hidden sm:flex absolute -left-6 top-8 bg-card rounded-2xl shadow-soft px-4 py-3 gap-2 items-center -rotate-6">
-              <div className="h-9 w-9 rounded-full bg-coral/30 grid place-items-center">
+            <div className="absolute inset-4 wash-sage -z-10" />
+            <div className="absolute -top-6 -left-4 h-40 w-40 wash-blush -z-10" />
+            <img src={hero} alt="Children playing and learning together" width={1400} height={1200} className="paint w-full h-auto max-w-xl mx-auto" />
+            <div className="hidden sm:flex absolute -left-2 top-8 surface-paper rounded-3xl shadow-soft px-4 py-3 gap-2 items-center -rotate-3">
+              <div className="h-9 w-9 rounded-full bg-coral/40 grid place-items-center">
                 <Sparkles className="h-4 w-4 text-forest" />
               </div>
               <div className="text-xs">
@@ -82,8 +81,8 @@ function Home() {
                 <div className="text-muted-foreground">Made by teachers</div>
               </div>
             </div>
-            <div className="hidden sm:flex absolute -right-4 bottom-6 bg-card rounded-2xl shadow-soft px-4 py-3 gap-2 items-center rotate-3">
-              <div className="h-9 w-9 rounded-full bg-mustard/30 grid place-items-center">
+            <div className="hidden sm:flex absolute -right-2 bottom-6 surface-paper rounded-3xl shadow-soft px-4 py-3 gap-2 items-center rotate-2">
+              <div className="h-9 w-9 rounded-full bg-mustard/40 grid place-items-center">
                 <GraduationCap className="h-4 w-4 text-forest" />
               </div>
               <div className="text-xs">
@@ -144,7 +143,7 @@ function Home() {
                 tone: "bg-sage/50",
               },
             ].map((f) => (
-              <div key={f.title} className="bg-card rounded-3xl p-7 shadow-soft">
+              <div key={f.title} className="surface-paper rounded-[2rem] p-7 shadow-soft">
                 <div className={`h-12 w-12 rounded-2xl grid place-items-center ${f.tone}`}>
                   <f.icon className="h-6 w-6 text-forest" />
                 </div>
@@ -159,10 +158,8 @@ function Home() {
       {/* ABOUT ME */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 grid lg:grid-cols-2 gap-12 items-center">
         <div className="relative order-2 lg:order-1">
-          <div className="absolute -inset-4 rounded-[3rem] bg-coral/25 blur-2xl -z-10" />
-          <div className="rounded-[2.5rem] overflow-hidden bg-card shadow-pop -rotate-2 max-w-md mx-auto">
-            <img src={aboutImg} alt="Ilodi, founder of Piece of Play" width={900} height={1100} loading="lazy" className="w-full h-auto" />
-          </div>
+          <div className="absolute inset-8 wash-lilac -z-10" />
+          <img src={aboutImg} alt="Ilodi, founder of Piece of Play" width={900} height={1100} loading="lazy" className="paint w-full h-auto max-w-md mx-auto" />
         </div>
         <div className="order-1 lg:order-2">
           <AccentBadge tone="lilac">Hi, I'm Ilodi</AccentBadge>
@@ -185,7 +182,7 @@ function Home() {
 
       {/* FREE RESOURCE */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="rounded-[2.5rem] bg-sage/50 overflow-hidden grid lg:grid-cols-2">
+        <div className="rounded-[2.5rem] surface-paper overflow-hidden grid lg:grid-cols-2 shadow-soft">
           <div className="p-10 sm:p-14 flex flex-col justify-center">
             <AccentBadge tone="mustard">FREE Download</AccentBadge>
             <h2 className="mt-3 text-3xl sm:text-4xl">Is your child ready for school?</h2>
@@ -199,8 +196,9 @@ function Home() {
               <Download className="h-4 w-4" /> Get the free checklist
             </Link>
           </div>
-          <div className="relative min-h-[280px]">
-            <img src={checklist} alt="School readiness checklist preview" width={1000} height={800} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="relative min-h-[280px] flex items-center justify-center p-8">
+            <div className="absolute inset-10 wash-sage -z-10" />
+            <img src={checklist} alt="School readiness checklist illustration" width={1000} height={800} loading="lazy" className="paint max-h-80 w-auto" />
           </div>
         </div>
       </section>
@@ -230,17 +228,18 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
     <Link
       to="/shop/$slug"
       params={{ slug: product.slug }}
-      className="group block bg-card rounded-3xl overflow-hidden shadow-soft hover:shadow-pop transition-shadow"
+      className="group block surface-paper rounded-[2rem] overflow-hidden shadow-soft hover:shadow-pop transition-shadow"
     >
-      <div className="relative aspect-square bg-blush overflow-hidden">
-        <img src={product.image} alt={product.name} loading="lazy" className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" />
+      <div className="relative aspect-square overflow-hidden p-4">
+        <div className="absolute inset-6 wash-blush -z-0" />
+        <img src={product.image} alt={product.name} loading="lazy" className="paint relative z-10 h-full w-full object-contain group-hover:scale-[1.03] transition-transform duration-500" />
         {product.badge && (
-          <span className="absolute top-3 left-3 font-accent text-lg leading-none bg-mustard text-forest rounded-full px-3 py-1">
+          <span className="absolute top-3 left-3 z-20 font-accent text-lg leading-none bg-mustard/80 text-forest rounded-full px-3 py-1">
             {product.badge}
           </span>
         )}
       </div>
-      <div className="p-5">
+      <div className="p-5 pt-2">
         <div className="text-xs font-medium text-muted-foreground">{product.ageGroup}</div>
         <h3 className="mt-1 text-xl">{product.name}</h3>
         <p className="mt-2 text-sm text-foreground/70 line-clamp-2">{product.short}</p>

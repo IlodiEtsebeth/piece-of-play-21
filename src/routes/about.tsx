@@ -26,10 +26,8 @@ function AboutPage() {
       <section className="bg-hero-blush">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 grid lg:grid-cols-[1fr_1.2fr] gap-12 items-center">
           <div className="relative">
-            <div className="absolute -inset-4 rounded-[3rem] bg-coral/25 blur-2xl -z-10" />
-            <div className="rounded-[2.5rem] overflow-hidden bg-card shadow-pop -rotate-2 max-w-sm mx-auto">
-              <img src={aboutImg} alt="Ilodi" className="w-full h-auto" />
-            </div>
+            <div className="absolute inset-6 wash-lilac -z-10" />
+            <img src={aboutImg} alt="Ilodi" className="paint w-full h-auto max-w-sm mx-auto" />
           </div>
           <div>
             <AccentBadge tone="lilac">Hi, I'm Ilodi</AccentBadge>
@@ -53,7 +51,7 @@ function AboutPage() {
             { icon: Sparkles, title: "Play-based approach", text: "Every resource is built on the belief that play is the most powerful teacher a child can have.", tone: "bg-coral/30" },
             { icon: Heart, title: "Confidence first", text: "Meaningful learning experiences that help children believe in themselves before, during and after school.", tone: "bg-lilac/40" },
           ].map((f) => (
-            <div key={f.title} className="bg-card rounded-3xl p-7 shadow-soft flex gap-4">
+            <div key={f.title} className="surface-paper rounded-[2rem] p-7 shadow-soft flex gap-4">
               <div className={`h-12 w-12 shrink-0 rounded-2xl grid place-items-center ${f.tone}`}>
                 <f.icon className="h-6 w-6 text-forest" />
               </div>

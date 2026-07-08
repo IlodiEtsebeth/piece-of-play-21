@@ -49,7 +49,7 @@ function ContactPage() {
                 href={c.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-card rounded-3xl p-5 shadow-soft hover:shadow-pop transition-shadow flex items-center gap-4"
+                className="surface-paper rounded-[1.75rem] p-5 shadow-soft hover:shadow-pop transition-shadow flex items-center gap-4"
               >
                 <div className={`h-12 w-12 shrink-0 rounded-2xl grid place-items-center ${c.tone}`}>
                   <c.icon className="h-6 w-6 text-forest" />
@@ -63,7 +63,7 @@ function ContactPage() {
           </div>
         </div>
 
-        <div className="rounded-[2.5rem] bg-card shadow-soft p-8">
+        <div className="rounded-[2.5rem] surface-paper shadow-soft p-8">
           {sent ? (
             <div className="text-center py-10">
               <div className="mx-auto h-16 w-16 rounded-full bg-sage/60 grid place-items-center">

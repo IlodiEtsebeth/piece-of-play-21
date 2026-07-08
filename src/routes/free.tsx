@@ -46,16 +46,14 @@ function FreePage() {
             </ul>
           </div>
           <div className="relative">
-            <div className="absolute -inset-4 rounded-[3rem] bg-sage/40 blur-2xl -z-10" />
-            <div className="rounded-[2.5rem] overflow-hidden bg-card shadow-pop rotate-1">
-              <img src={checklist} alt="Checklist preview" className="w-full h-auto" />
-            </div>
+            <div className="absolute inset-8 wash-sage -z-10" />
+            <img src={checklist} alt="Checklist illustration" className="paint w-full h-auto max-w-md mx-auto" />
           </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-16">
-        <div className="rounded-[2.5rem] bg-card shadow-soft p-8 sm:p-10">
+        <div className="rounded-[2.5rem] surface-paper shadow-soft p-8 sm:p-10">
           {submitted ? (
             <div className="text-center py-8">
               <div className="mx-auto h-16 w-16 rounded-full bg-sage/60 grid place-items-center">

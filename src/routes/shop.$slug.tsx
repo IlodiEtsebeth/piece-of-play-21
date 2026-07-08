@@ -49,11 +49,9 @@ function ProductPage() {
           </Link>
         </div>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14 grid lg:grid-cols-2 gap-10 items-start">
-          <div className="relative">
-            <div className="absolute -inset-4 rounded-[3rem] bg-mustard/25 blur-2xl -z-10" />
-            <div className="rounded-[2.5rem] overflow-hidden bg-card shadow-pop">
-              <img src={product.image} alt={product.name} className="w-full h-auto" />
-            </div>
+          <div className="relative flex items-center justify-center p-4 sm:p-8">
+            <div className="absolute inset-8 wash-mustard -z-10" />
+            <img src={product.image} alt={product.name} className="paint w-full h-auto max-w-md" />
           </div>
           <div>
             <div className="flex items-center gap-2 flex-wrap">
@@ -98,8 +96,8 @@ function ProductPage() {
           <p className="mt-2 text-foreground/70">A few pages from inside the pack.</p>
           <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
             {Array.from({ length: Math.min(product.previewPages, 4) }).map((_, i) => (
-              <div key={i} className="aspect-[3/4] rounded-2xl bg-card shadow-soft overflow-hidden">
-                <img src={product.image} alt={`Preview page ${i + 1}`} loading="lazy" className="h-full w-full object-cover" style={{ objectPosition: `${25 * i}% ${25 * i}%` }} />
+              <div key={i} className="aspect-[3/4] rounded-[1.5rem] surface-paper shadow-soft overflow-hidden p-3 flex items-center justify-center">
+                <img src={product.image} alt={`Preview page ${i + 1}`} loading="lazy" className="paint h-full w-full object-contain" style={{ objectPosition: `${25 * i}% ${25 * i}%` }} />
               </div>
             ))}
           </div>
@@ -108,7 +106,7 @@ function ProductPage() {
 
       {/* Order CTA */}
       <section className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="rounded-[2.5rem] bg-sage/50 p-8 sm:p-12 text-center">
+        <div className="rounded-[2.5rem] surface-paper p-8 sm:p-12 text-center shadow-soft">
           <AccentBadge tone="mustard">Ready to order?</AccentBadge>
           <h2 className="mt-3 text-3xl">Order in one message on WhatsApp</h2>
           <p className="mt-3 text-foreground/75 max-w-lg mx-auto">
@@ -123,7 +121,7 @@ function ProductPage() {
               href={whatsappLink(message)}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#25D366] text-white px-8 py-4 font-semibold text-lg shadow-pop hover:brightness-105 transition"
+              className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#25D366] text-white px-8 py-4 font-semibold text-lg shadow-soft hover:brightness-105 transition"
             >
               <MessageCircle className="h-5 w-5" /> Order on WhatsApp
             </a>
@@ -140,10 +138,11 @@ function ProductPage() {
               key={p.slug}
               to="/shop/$slug"
               params={{ slug: p.slug }}
-              className="group block bg-card rounded-3xl overflow-hidden shadow-soft hover:shadow-pop transition-shadow"
+              className="group block surface-paper rounded-[2rem] overflow-hidden shadow-soft hover:shadow-pop transition-shadow"
             >
-              <div className="aspect-square bg-blush overflow-hidden">
-                <img src={p.image} alt={p.name} loading="lazy" className="h-full w-full object-cover group-hover:scale-105 transition" />
+              <div className="aspect-square overflow-hidden p-4 relative">
+                <div className="absolute inset-6 wash-blush -z-0" />
+                <img src={p.image} alt={p.name} loading="lazy" className="paint relative z-10 h-full w-full object-contain group-hover:scale-[1.03] transition" />
               </div>
               <div className="p-5">
                 <div className="text-xs text-muted-foreground">{p.ageGroup}</div>
@@ -160,7 +159,7 @@ function ProductPage() {
 
 function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-3xl bg-card p-5 shadow-soft">
+    <div className="rounded-[1.75rem] surface-paper p-5 shadow-soft">
       <div className="font-display text-lg text-primary">{title}</div>
       {children}
     </div>
