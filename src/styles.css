@@ -113,10 +113,6 @@
     letter-spacing: -0.015em;
     color: var(--forest);
   }
-  img {
-    /* Let watercolor artwork sit on paper naturally, no hard box edges */
-    mix-blend-mode: multiply;
-  }
 }
 
 @utility font-display {
