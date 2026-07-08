@@ -138,10 +138,11 @@ function ProductPage() {
               key={p.slug}
               to="/shop/$slug"
               params={{ slug: p.slug }}
-              className="group block bg-card rounded-3xl overflow-hidden shadow-soft hover:shadow-pop transition-shadow"
+              className="group block surface-paper rounded-[2rem] overflow-hidden shadow-soft hover:shadow-pop transition-shadow"
             >
-              <div className="aspect-square bg-blush overflow-hidden">
-                <img src={p.image} alt={p.name} loading="lazy" className="h-full w-full object-cover group-hover:scale-105 transition" />
+              <div className="aspect-square overflow-hidden p-4 relative">
+                <div className="absolute inset-6 wash-blush -z-0" />
+                <img src={p.image} alt={p.name} loading="lazy" className="paint relative z-10 h-full w-full object-contain group-hover:scale-[1.03] transition" />
               </div>
               <div className="p-5">
                 <div className="text-xs text-muted-foreground">{p.ageGroup}</div>
