@@ -159,7 +159,7 @@ function ProductPage() {
 
 function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-3xl bg-card p-5 shadow-soft">
+    <div className="rounded-[1.75rem] surface-paper p-5 shadow-soft">
       <div className="font-display text-lg text-primary">{title}</div>
       {children}
     </div>
