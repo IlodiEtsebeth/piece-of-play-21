@@ -49,7 +49,7 @@ function ContactPage() {
                 href={c.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-card rounded-3xl p-5 shadow-soft hover:shadow-pop transition-shadow flex items-center gap-4"
+                className="surface-paper rounded-[1.75rem] p-5 shadow-soft hover:shadow-pop transition-shadow flex items-center gap-4"
               >
                 <div className={`h-12 w-12 shrink-0 rounded-2xl grid place-items-center ${c.tone}`}>
                   <c.icon className="h-6 w-6 text-forest" />
