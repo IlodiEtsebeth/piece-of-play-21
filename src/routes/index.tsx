@@ -69,12 +69,11 @@ function Home() {
             </div>
           </div>
           <div className="relative">
-            <div className="absolute -inset-4 rounded-[3rem] bg-sage/40 blur-2xl -z-10" />
-            <div className="rounded-[2.5rem] overflow-hidden bg-card shadow-pop rotate-1">
-              <img src={hero} alt="Children playing and learning together" width={1400} height={1200} className="w-full h-auto" />
-            </div>
-            <div className="hidden sm:flex absolute -left-6 top-8 bg-card rounded-2xl shadow-soft px-4 py-3 gap-2 items-center -rotate-6">
-              <div className="h-9 w-9 rounded-full bg-coral/30 grid place-items-center">
+            <div className="absolute inset-4 wash-sage -z-10" />
+            <div className="absolute -top-6 -left-4 h-40 w-40 wash-blush -z-10" />
+            <img src={hero} alt="Children playing and learning together" width={1400} height={1200} className="paint w-full h-auto max-w-xl mx-auto" />
+            <div className="hidden sm:flex absolute -left-2 top-8 surface-paper rounded-3xl shadow-soft px-4 py-3 gap-2 items-center -rotate-3">
+              <div className="h-9 w-9 rounded-full bg-coral/40 grid place-items-center">
                 <Sparkles className="h-4 w-4 text-forest" />
               </div>
               <div className="text-xs">
@@ -82,8 +81,8 @@ function Home() {
                 <div className="text-muted-foreground">Made by teachers</div>
               </div>
             </div>
-            <div className="hidden sm:flex absolute -right-4 bottom-6 bg-card rounded-2xl shadow-soft px-4 py-3 gap-2 items-center rotate-3">
-              <div className="h-9 w-9 rounded-full bg-mustard/30 grid place-items-center">
+            <div className="hidden sm:flex absolute -right-2 bottom-6 surface-paper rounded-3xl shadow-soft px-4 py-3 gap-2 items-center rotate-2">
+              <div className="h-9 w-9 rounded-full bg-mustard/40 grid place-items-center">
                 <GraduationCap className="h-4 w-4 text-forest" />
               </div>
               <div className="text-xs">
