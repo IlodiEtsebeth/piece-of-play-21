@@ -53,7 +53,7 @@ function FreePage() {
       </section>
 
       <section className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-16">
-        <div className="rounded-[2.5rem] bg-card shadow-soft p-8 sm:p-10">
+        <div className="rounded-[2.5rem] surface-paper shadow-soft p-8 sm:p-10">
           {submitted ? (
             <div className="text-center py-8">
               <div className="mx-auto h-16 w-16 rounded-full bg-sage/60 grid place-items-center">
