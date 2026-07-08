@@ -143,7 +143,7 @@ function Home() {
                 tone: "bg-sage/50",
               },
             ].map((f) => (
-              <div key={f.title} className="bg-card rounded-3xl p-7 shadow-soft">
+              <div key={f.title} className="surface-paper rounded-[2rem] p-7 shadow-soft">
                 <div className={`h-12 w-12 rounded-2xl grid place-items-center ${f.tone}`}>
                   <f.icon className="h-6 w-6 text-forest" />
                 </div>
