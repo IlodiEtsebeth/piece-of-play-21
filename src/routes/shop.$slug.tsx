@@ -96,8 +96,8 @@ function ProductPage() {
           <p className="mt-2 text-foreground/70">A few pages from inside the pack.</p>
           <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
             {Array.from({ length: Math.min(product.previewPages, 4) }).map((_, i) => (
-              <div key={i} className="aspect-[3/4] rounded-2xl bg-card shadow-soft overflow-hidden">
-                <img src={product.image} alt={`Preview page ${i + 1}`} loading="lazy" className="h-full w-full object-cover" style={{ objectPosition: `${25 * i}% ${25 * i}%` }} />
+              <div key={i} className="aspect-[3/4] rounded-[1.5rem] surface-paper shadow-soft overflow-hidden p-3 flex items-center justify-center">
+                <img src={product.image} alt={`Preview page ${i + 1}`} loading="lazy" className="paint h-full w-full object-contain" style={{ objectPosition: `${25 * i}% ${25 * i}%` }} />
               </div>
             ))}
           </div>
