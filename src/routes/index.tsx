@@ -182,7 +182,7 @@ function Home() {
 
       {/* FREE RESOURCE */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="rounded-[2.5rem] bg-sage/50 overflow-hidden grid lg:grid-cols-2">
+        <div className="rounded-[2.5rem] surface-paper overflow-hidden grid lg:grid-cols-2 shadow-soft">
           <div className="p-10 sm:p-14 flex flex-col justify-center">
             <AccentBadge tone="mustard">FREE Download</AccentBadge>
             <h2 className="mt-3 text-3xl sm:text-4xl">Is your child ready for school?</h2>
@@ -196,8 +196,9 @@ function Home() {
               <Download className="h-4 w-4" /> Get the free checklist
             </Link>
           </div>
-          <div className="relative min-h-[280px]">
-            <img src={checklist} alt="School readiness checklist preview" width={1000} height={800} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="relative min-h-[280px] flex items-center justify-center p-8">
+            <div className="absolute inset-10 wash-sage -z-10" />
+            <img src={checklist} alt="School readiness checklist illustration" width={1000} height={800} loading="lazy" className="paint max-h-80 w-auto" />
           </div>
         </div>
       </section>
