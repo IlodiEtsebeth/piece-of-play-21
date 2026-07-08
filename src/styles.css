@@ -45,40 +45,43 @@
   --color-forest: var(--forest);
   --color-cream: var(--cream);
 
-  --shadow-soft: 0 10px 30px -12px color-mix(in oklab, var(--forest) 18%, transparent);
-  --shadow-pop: 0 20px 45px -18px color-mix(in oklab, var(--coral) 35%, transparent);
+  /* Whisper-soft, painterly shadows — no hard drop shadows */
+  --shadow-soft: 0 8px 24px -14px color-mix(in oklab, var(--forest) 22%, transparent),
+                 0 2px 6px -3px color-mix(in oklab, var(--forest) 10%, transparent);
+  --shadow-pop:  0 18px 40px -22px color-mix(in oklab, var(--coral) 30%, transparent),
+                 0 4px 12px -6px color-mix(in oklab, var(--forest) 12%, transparent);
 }
 
 :root {
-  --radius: 1.25rem;
+  --radius: 1.5rem;
 
-  /* Brand */
-  --blush: oklch(0.94 0.028 20);        /* #fce2db */
-  --lilac: oklch(0.83 0.06 310);        /* #d3bfdb */
-  --mustard: oklch(0.76 0.14 78);       /* #e1ac4c */
-  --coral: oklch(0.72 0.14 22);         /* #eb9e91 */
-  --sage: oklch(0.83 0.045 165);        /* #b6d1c3 */
-  --forest: oklch(0.36 0.07 165);       /* deep green from logo text */
-  --cream: oklch(0.985 0.012 80);
+  /* Brand — softened watercolour washes */
+  --blush: oklch(0.955 0.022 22);
+  --lilac: oklch(0.87 0.05 310);
+  --mustard: oklch(0.82 0.11 82);
+  --coral: oklch(0.79 0.10 22);
+  --sage: oklch(0.88 0.038 165);
+  --forest: oklch(0.40 0.06 165);
+  --cream: oklch(0.985 0.014 82);
 
-  --background: oklch(0.985 0.012 80);
-  --foreground: oklch(0.28 0.06 165);
+  --background: oklch(0.986 0.012 82);
+  --foreground: oklch(0.32 0.05 165);
   --card: oklch(1 0 0);
   --card-foreground: var(--foreground);
   --popover: oklch(1 0 0);
   --popover-foreground: var(--foreground);
   --primary: var(--forest);
-  --primary-foreground: oklch(0.98 0.01 80);
+  --primary-foreground: oklch(0.985 0.014 82);
   --secondary: var(--blush);
   --secondary-foreground: var(--forest);
-  --muted: oklch(0.96 0.01 60);
-  --muted-foreground: oklch(0.5 0.03 165);
+  --muted: oklch(0.965 0.012 60);
+  --muted-foreground: oklch(0.52 0.03 165);
   --accent: var(--mustard);
   --accent-foreground: var(--forest);
   --destructive: oklch(0.6 0.22 27);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.9 0.02 60);
-  --input: oklch(0.92 0.02 60);
+  --border: oklch(0.92 0.018 60);
+  --input: oklch(0.94 0.018 60);
   --ring: var(--mustard);
 }
 
@@ -90,16 +93,29 @@
     scroll-behavior: smooth;
   }
   body {
-    background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    background-color: var(--color-background);
+    /* Subtle watercolour paper: soft cream washes + fine grain */
+    background-image:
+      radial-gradient(ellipse 900px 700px at 8% -6%, color-mix(in oklab, var(--blush) 55%, transparent), transparent 60%),
+      radial-gradient(ellipse 700px 600px at 100% 12%, color-mix(in oklab, var(--sage) 40%, transparent), transparent 65%),
+      radial-gradient(ellipse 800px 700px at 90% 100%, color-mix(in oklab, var(--lilac) 35%, transparent), transparent 65%),
+      radial-gradient(ellipse 600px 500px at 0% 90%, color-mix(in oklab, var(--mustard) 25%, transparent), transparent 65%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.35  0 0 0 0 0.28  0 0 0 0 0.2  0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-attachment: fixed, fixed, fixed, fixed, fixed;
+    background-size: auto, auto, auto, auto, 320px 320px;
   }
   h1, h2, h3, h4, h5 {
     font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    font-weight: 500;
+    letter-spacing: -0.015em;
     color: var(--forest);
+  }
+  img {
+    /* Let watercolor artwork sit on paper naturally, no hard box edges */
+    mix-blend-mode: multiply;
   }
 }
 
@@ -110,10 +126,46 @@
   font-family: var(--font-accent);
 }
 
+/* Softer, painterly hero wash */
 @utility bg-hero-blush {
   background:
-    radial-gradient(ellipse 60% 50% at 15% 10%, color-mix(in oklab, var(--coral) 25%, transparent), transparent 60%),
-    radial-gradient(ellipse 50% 45% at 90% 20%, color-mix(in oklab, var(--mustard) 25%, transparent), transparent 60%),
-    radial-gradient(ellipse 55% 45% at 80% 90%, color-mix(in oklab, var(--sage) 30%, transparent), transparent 60%),
-    var(--blush);
+    radial-gradient(ellipse 55% 50% at 12% 8%, color-mix(in oklab, var(--coral) 28%, transparent), transparent 62%),
+    radial-gradient(ellipse 45% 40% at 92% 18%, color-mix(in oklab, var(--mustard) 26%, transparent), transparent 62%),
+    radial-gradient(ellipse 60% 50% at 80% 95%, color-mix(in oklab, var(--sage) 32%, transparent), transparent 65%),
+    radial-gradient(ellipse 40% 35% at 5% 90%, color-mix(in oklab, var(--lilac) 28%, transparent), transparent 65%),
+    color-mix(in oklab, var(--blush) 55%, var(--cream));
+}
+
+/* Organic, hand-torn card edges via variable border-radius */
+@utility rounded-blob {
+  border-radius: 62% 38% 55% 45% / 48% 55% 45% 52%;
+}
+@utility rounded-blob-2 {
+  border-radius: 38% 62% 42% 58% / 55% 42% 58% 45%;
+}
+
+/* Watercolor-textured surface for cards */
+@utility surface-paper {
+  background-color: color-mix(in oklab, var(--card) 92%, var(--blush));
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.35  0 0 0 0 0.28  0 0 0 0 0.2  0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 240px 240px;
+}
+
+/* Soft watercolor "wash" glow behind imagery */
+@utility wash-blush {
+  background: radial-gradient(ellipse at center, color-mix(in oklab, var(--coral) 35%, transparent), transparent 70%);
+  filter: blur(28px);
+}
+@utility wash-sage {
+  background: radial-gradient(ellipse at center, color-mix(in oklab, var(--sage) 55%, transparent), transparent 70%);
+  filter: blur(28px);
+}
+@utility wash-mustard {
+  background: radial-gradient(ellipse at center, color-mix(in oklab, var(--mustard) 45%, transparent), transparent 70%);
+  filter: blur(28px);
+}
+@utility wash-lilac {
+  background: radial-gradient(ellipse at center, color-mix(in oklab, var(--lilac) 55%, transparent), transparent 70%);
+  filter: blur(28px);
 }
