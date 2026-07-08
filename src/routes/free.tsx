@@ -46,10 +46,8 @@ function FreePage() {
             </ul>
           </div>
           <div className="relative">
-            <div className="absolute -inset-4 rounded-[3rem] bg-sage/40 blur-2xl -z-10" />
-            <div className="rounded-[2.5rem] overflow-hidden bg-card shadow-pop rotate-1">
-              <img src={checklist} alt="Checklist preview" className="w-full h-auto" />
-            </div>
+            <div className="absolute inset-8 wash-sage -z-10" />
+            <img src={checklist} alt="Checklist illustration" className="paint w-full h-auto max-w-md mx-auto" />
           </div>
         </div>
       </section>
