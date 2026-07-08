@@ -158,10 +158,8 @@ function Home() {
       {/* ABOUT ME */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 grid lg:grid-cols-2 gap-12 items-center">
         <div className="relative order-2 lg:order-1">
-          <div className="absolute -inset-4 rounded-[3rem] bg-coral/25 blur-2xl -z-10" />
-          <div className="rounded-[2.5rem] overflow-hidden bg-card shadow-pop -rotate-2 max-w-md mx-auto">
-            <img src={aboutImg} alt="Ilodi, founder of Piece of Play" width={900} height={1100} loading="lazy" className="w-full h-auto" />
-          </div>
+          <div className="absolute inset-8 wash-lilac -z-10" />
+          <img src={aboutImg} alt="Ilodi, founder of Piece of Play" width={900} height={1100} loading="lazy" className="paint w-full h-auto max-w-md mx-auto" />
         </div>
         <div className="order-1 lg:order-2">
           <AccentBadge tone="lilac">Hi, I'm Ilodi</AccentBadge>
