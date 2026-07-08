@@ -106,7 +106,7 @@ function ProductPage() {
 
       {/* Order CTA */}
       <section className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="rounded-[2.5rem] bg-sage/50 p-8 sm:p-12 text-center">
+        <div className="rounded-[2.5rem] surface-paper p-8 sm:p-12 text-center shadow-soft">
           <AccentBadge tone="mustard">Ready to order?</AccentBadge>
           <h2 className="mt-3 text-3xl">Order in one message on WhatsApp</h2>
           <p className="mt-3 text-foreground/75 max-w-lg mx-auto">
@@ -121,7 +121,7 @@ function ProductPage() {
               href={whatsappLink(message)}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#25D366] text-white px-8 py-4 font-semibold text-lg shadow-pop hover:brightness-105 transition"
+              className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#25D366] text-white px-8 py-4 font-semibold text-lg shadow-soft hover:brightness-105 transition"
             >
               <MessageCircle className="h-5 w-5" /> Order on WhatsApp
             </a>
