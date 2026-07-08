@@ -228,17 +228,18 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
     <Link
       to="/shop/$slug"
       params={{ slug: product.slug }}
-      className="group block bg-card rounded-3xl overflow-hidden shadow-soft hover:shadow-pop transition-shadow"
+      className="group block surface-paper rounded-[2rem] overflow-hidden shadow-soft hover:shadow-pop transition-shadow"
     >
-      <div className="relative aspect-square bg-blush overflow-hidden">
-        <img src={product.image} alt={product.name} loading="lazy" className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" />
+      <div className="relative aspect-square overflow-hidden p-4">
+        <div className="absolute inset-6 wash-blush -z-0" />
+        <img src={product.image} alt={product.name} loading="lazy" className="paint relative z-10 h-full w-full object-contain group-hover:scale-[1.03] transition-transform duration-500" />
         {product.badge && (
-          <span className="absolute top-3 left-3 font-accent text-lg leading-none bg-mustard text-forest rounded-full px-3 py-1">
+          <span className="absolute top-3 left-3 z-20 font-accent text-lg leading-none bg-mustard/80 text-forest rounded-full px-3 py-1">
             {product.badge}
           </span>
         )}
       </div>
-      <div className="p-5">
+      <div className="p-5 pt-2">
         <div className="text-xs font-medium text-muted-foreground">{product.ageGroup}</div>
         <h3 className="mt-1 text-xl">{product.name}</h3>
         <p className="mt-2 text-sm text-foreground/70 line-clamp-2">{product.short}</p>
