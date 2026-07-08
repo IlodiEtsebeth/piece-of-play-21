@@ -49,11 +49,9 @@ function ProductPage() {
           </Link>
         </div>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14 grid lg:grid-cols-2 gap-10 items-start">
-          <div className="relative">
-            <div className="absolute -inset-4 rounded-[3rem] bg-mustard/25 blur-2xl -z-10" />
-            <div className="rounded-[2.5rem] overflow-hidden bg-card shadow-pop">
-              <img src={product.image} alt={product.name} className="w-full h-auto" />
-            </div>
+          <div className="relative flex items-center justify-center p-4 sm:p-8">
+            <div className="absolute inset-8 wash-mustard -z-10" />
+            <img src={product.image} alt={product.name} className="paint w-full h-auto max-w-md" />
           </div>
           <div>
             <div className="flex items-center gap-2 flex-wrap">
