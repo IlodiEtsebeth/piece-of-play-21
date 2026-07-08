@@ -70,7 +70,7 @@ function ProductPage() {
             <div className="mt-8 grid sm:grid-cols-2 gap-6">
               <Panel title="What's Included">
                 <ul className="mt-3 space-y-2">
-                  {product.included.map((i) => (
+                  {product.included.map((i: string) => (
                     <li key={i} className="flex gap-2 text-sm">
                       <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" /> <span>{i}</span>
                     </li>
@@ -79,7 +79,7 @@ function ProductPage() {
               </Panel>
               <Panel title="Skills Developed">
                 <ul className="mt-3 space-y-2">
-                  {product.skills.map((s) => (
+                  {product.skills.map((s: string) => (
                     <li key={s} className="flex gap-2 text-sm">
                       <Sparkles className="h-4 w-4 text-mustard mt-0.5 shrink-0" /> <span>{s}</span>
                     </li>
