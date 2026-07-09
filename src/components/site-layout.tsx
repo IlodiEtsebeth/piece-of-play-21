@@ -87,7 +87,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             <img
               src={handMadeBadge.url}
               alt="Hand-made with love"
-              className="mt-5 h-32 w-32 object-contain -rotate-3 drop-shadow-soft"
+              className="mt-5 h-32 w-32 object-contain -rotate-3"
               loading="lazy"
             />
           </div>
