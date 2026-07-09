@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
 import { Menu, X, Instagram, Facebook, Mail, MessageCircle } from "lucide-react";
 import logo from "@/assets/logo.png";
+import handMadeBadge from "@/assets/hand-made-badge.png.asset.json";
 import { whatsappLink } from "@/lib/products";
 
 const nav = [
