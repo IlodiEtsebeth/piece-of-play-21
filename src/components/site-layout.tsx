@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
 import { Menu, X, Instagram, Facebook, Mail, MessageCircle } from "lucide-react";
 import logo from "@/assets/logo.png";
+import handMadeBadge from "@/assets/hand-made-badge.png.asset.json";
 import { whatsappLink } from "@/lib/products";
 
 const nav = [
@@ -83,6 +84,12 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             <p className="mt-4 text-primary-foreground/80 text-sm leading-relaxed max-w-xs">
               Play-based learning resources helping little learners aged 3–9 build big skills and start school with confidence.
             </p>
+            <img
+              src={handMadeBadge.url}
+              alt="Hand-made with love"
+              className="mt-5 h-32 w-32 object-contain -rotate-3"
+              loading="lazy"
+            />
           </div>
           <div>
             <h4 className="font-display text-lg text-primary-foreground">Explore</h4>
@@ -125,7 +132,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         <div className="border-t border-primary-foreground/15">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-5 text-xs text-primary-foreground/70 flex flex-wrap justify-between gap-3">
             <span>© {new Date().getFullYear()} Piece of Play. Learning through play, one piece at a time.</span>
-            <span className="font-accent text-mustard text-sm">Made with love for little learners ♥</span>
+            <span className="font-accent text-mustard text-sm">For little learners ♥</span>
           </div>
         </div>
       </footer>
