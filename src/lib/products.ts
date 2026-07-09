@@ -125,4 +125,4 @@ export const products: Product[] = [
 export const getProduct = (slug: string) => products.find((p) => p.slug === slug);
 
 export const whatsappLink = (message: string) =>
-  `https://wa.me/27000000000?text=${encodeURIComponent(message)}`;
+`https://wa.me/27715480475?text=${encodeURIComponent(message)}`;
