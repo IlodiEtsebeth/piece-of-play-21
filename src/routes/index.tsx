@@ -16,10 +16,10 @@ export const Route = createFileRoute("/")({
         content:
           "Warm, printable play-based learning resources for children aged 3–9. Created by a Remedial Teacher & Pre-Primary Head.",
       },
-      { property: "og:title", content: "Piece of Play — Play-Based Learning" },
+      { property: "og:title", content: "Piece of Play — Play-Based Learning for Little Learners" },
       {
         property: "og:description",
-        content: "Helping little learners build big skills through play.",
+        content: "Warm, printable play-based learning resources for children aged 3–9. Created by a Remedial Teacher & Pre-Primary Head.",
       },
     ],
     links: [{ rel: "canonical", href: "/" }],

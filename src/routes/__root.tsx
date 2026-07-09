@@ -77,26 +77,29 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Piece of Play — Play-Based Learning Resources for Little Learners" },
+      { title: "Piece of Play — Play-Based Learning for Little Learners" },
       {
         name: "description",
         content:
-          "Printable play-based learning resources for children aged 3–9, designed by a Remedial Teacher and Pre-Primary Head to build confidence and school readiness.",
+          "Warm, printable play-based learning resources for children aged 3–9. Created by a Remedial Teacher & Pre-Primary Head.",
       },
       { name: "author", content: "Piece of Play" },
-      { property: "og:title", content: "Piece of Play — Play-Based Learning Resources" },
+      { property: "og:title", content: "Piece of Play — Play-Based Learning for Little Learners" },
       {
         property: "og:description",
         content:
-          "Helping little learners build big skills through play. Printable resources for ages 3–9.",
+          "Warm, printable play-based learning resources for children aged 3–9. Created by a Remedial Teacher & Pre-Primary Head.",
       },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Piece of Play" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Piece of Play — Play-Based Learning for Little Learners" },
+      { name: "twitter:description", content: "Warm, printable play-based learning resources for children aged 3–9. Created by a Remedial Teacher & Pre-Primary Head." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/UbOY6i0kqmYJXTzEFvQrjPtgcnH2/social-images/social-1783636384724-POP_LOGO.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/UbOY6i0kqmYJXTzEFvQrjPtgcnH2/social-images/social-1783636384724-POP_LOGO.webp" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
