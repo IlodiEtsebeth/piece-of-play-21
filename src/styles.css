@@ -179,7 +179,8 @@
   border: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
   padding: 0.625rem 1rem;
   outline: none;
-}
-@utility input:focus {
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary) 25%, transparent);
+
+  &:focus {
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary) 25%, transparent);
+  }
 }
