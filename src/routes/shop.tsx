@@ -28,6 +28,9 @@ function ShopLayout() {
     queryFn: () => fetchProducts({ activeOnly: true }),
   });
   const products = allProducts.filter((p) => !p.is_free);
+  const ageGroups = Array.from(new Set(products.map((p) => p.age_group))).sort();
+  const [filter, setFilter] = useState<string | null>(null);
+  const filtered = filter ? products.filter((p) => p.age_group === filter) : products;
 
   return (
     <SiteLayout>
@@ -41,14 +44,37 @@ function ShopLayout() {
         </div>
       </section>
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+        {ageGroups.length > 1 && (
+          <div className="flex flex-wrap gap-2 justify-center mb-10">
+            <button
+              onClick={() => setFilter(null)}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                filter === null ? "bg-primary text-primary-foreground" : "surface-paper text-foreground/70 hover:text-foreground"
+              }`}
+            >
+              All
+            </button>
+            {ageGroups.map((ag) => (
+              <button
+                key={ag}
+                onClick={() => setFilter(ag)}
+                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                  filter === ag ? "bg-primary text-primary-foreground" : "surface-paper text-foreground/70 hover:text-foreground"
+                }`}
+              >
+                {ag}
+              </button>
+            ))}
+          </div>
+        )}
         {isLoading && <p className="text-muted-foreground">Loading products…</p>}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((p) => (
+          {filtered.map((p) => (
             <ProductCard key={p.id} p={p} />
           ))}
         </div>
-        {!isLoading && products.length === 0 && (
-          <p className="text-center text-muted-foreground">No products yet.</p>
+        {!isLoading && filtered.length === 0 && (
+          <p className="text-center text-muted-foreground">No products in this category yet.</p>
         )}
       </section>
     </SiteLayout>
