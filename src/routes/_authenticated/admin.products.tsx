@@ -5,7 +5,7 @@ import { Plus, Trash2, Save, Upload, ExternalLink, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import type { Product, Category } from "@/lib/products-db";
-import { resolveSignedUrl } from "@/lib/products-db";
+import { resolveSignedUrl, resolvePreviewUrls } from "@/lib/products-db";
 
 export const Route = createFileRoute("/_authenticated/admin/products")({
   component: ProductsPage,
@@ -35,6 +35,7 @@ const emptyProduct = (): Product => ({
   included: [],
   skills: [],
   preview_pages: 0,
+  preview_images: [],
   sort_order: 0,
   active: true,
 });
@@ -224,6 +225,40 @@ function ProductEditor({
     }
   }
 
+  async function onPreviewImagesChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    if (files.length === 0) return;
+    setBusy(true);
+    try {
+      const paths: string[] = [];
+      for (const file of files) {
+        const ext = file.name.split(".").pop() ?? "bin";
+        const path = `${crypto.randomUUID()}.${ext}`;
+        const { error } = await supabase.storage.from("product-previews").upload(path, file, {
+          cacheControl: "3600",
+          upsert: false,
+          contentType: file.type,
+        });
+        if (error) throw error;
+        paths.push(path);
+      }
+      set("preview_images", [...form.preview_images, ...paths]);
+      toast.success(`${paths.length} preview image${paths.length > 1 ? "s" : ""} uploaded`);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Upload failed");
+    } finally {
+      setBusy(false);
+      e.target.value = "";
+    }
+  }
+
+  function removePreviewImage(path: string) {
+    set(
+      "preview_images",
+      form.preview_images.filter((p) => p !== path),
+    );
+  }
+
   async function save() {
     if (!form.name.trim()) return toast.error("Name is required");
     setBusy(true);
@@ -242,6 +277,7 @@ function ProductEditor({
       included: form.included,
       skills: form.skills,
       preview_pages: form.preview_pages,
+      preview_images: form.preview_images,
       sort_order: form.sort_order,
       active: form.active,
     };
@@ -414,16 +450,40 @@ function ProductEditor({
             />
           </Field>
 
-          <div className="grid sm:grid-cols-3 gap-4">
-            <Field label="Preview pages">
-              <input
-                type="number"
-                min={0}
-                value={form.preview_pages}
-                onChange={(e) => set("preview_pages", Number(e.target.value))}
-                className="input"
-              />
-            </Field>
+          <Field label="Preview images (sample pages shown to shoppers)">
+            <div className="flex flex-wrap gap-3">
+              {resolvePreviewUrls(form.preview_images).map((url, i) => (
+                <div key={form.preview_images[i]} className="relative">
+                  <img
+                    src={url}
+                    alt=""
+                    className="h-20 w-20 rounded-xl object-cover border border-border/60"
+                  />
+                  <button
+                    onClick={() => removePreviewImage(form.preview_images[i])}
+                    className="absolute -top-2 -right-2 rounded-full bg-destructive text-destructive-foreground p-1"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </div>
+              ))}
+              <label className="h-20 w-20 rounded-xl border-2 border-dashed border-border/60 grid place-items-center cursor-pointer hover:bg-muted text-muted-foreground">
+                <Upload className="h-4 w-4" />
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={onPreviewImagesChange}
+                />
+              </label>
+            </div>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Upload a few sample pages so shoppers can see what's inside before buying.
+            </p>
+          </Field>
+
+          <div className="grid sm:grid-cols-2 gap-4">
             <Field label="Sort order">
               <input
                 type="number"

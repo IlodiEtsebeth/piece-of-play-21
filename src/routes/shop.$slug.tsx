@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { ArrowLeft, Check, MessageCircle, Sparkles, Download } from "lucide-react";
 import { SiteLayout, AccentBadge } from "@/components/site-layout";
-import { fetchProductBySlug, resolveSignedUrl, formatPrice } from "@/lib/products-db";
+import { fetchProductBySlug, resolveSignedUrl, resolvePreviewUrls, formatPrice } from "@/lib/products-db";
 import { whatsappLink } from "@/lib/products";
 
 export const Route = createFileRoute("/shop/$slug")({
@@ -29,6 +29,7 @@ function ProductPage() {
 
   const [img, setImg] = useState<string | null>(null);
   const [pdf, setPdf] = useState<string | null>(null);
+  const previewUrls = product ? resolvePreviewUrls(product.preview_images) : [];
   useEffect(() => {
     if (!product) return;
     resolveSignedUrl("product-images", product.image_url).then(setImg);
@@ -115,6 +116,25 @@ function ProductPage() {
           </div>
         </div>
       </div>
+
+      {previewUrls.length > 0 && (
+        <section className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-4">
+          <h2 className="text-2xl text-center">A peek inside</h2>
+          <p className="mt-2 text-center text-foreground/70">
+            A few sample pages from {product.name}
+          </p>
+          <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {previewUrls.map((url, i) => (
+              <img
+                key={i}
+                src={url}
+                alt={`Sample page ${i + 1} from ${product.name}`}
+                className="w-full h-auto rounded-2xl border border-border/60 shadow-soft"
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16">
         <div className="rounded-[2.5rem] surface-paper p-8 sm:p-12 text-center shadow-soft">

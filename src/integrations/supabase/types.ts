@@ -52,6 +52,7 @@ export type Database = {
           included: string[]
           name: string
           pdf_url: string | null
+          preview_images: string[]
           preview_pages: number
           price_cents: number
           short: string
@@ -73,6 +74,7 @@ export type Database = {
           included?: string[]
           name: string
           pdf_url?: string | null
+          preview_images?: string[]
           preview_pages?: number
           price_cents?: number
           short?: string
@@ -94,6 +96,7 @@ export type Database = {
           included?: string[]
           name?: string
           pdf_url?: string | null
+          preview_images?: string[]
           preview_pages?: number
           price_cents?: number
           short?: string

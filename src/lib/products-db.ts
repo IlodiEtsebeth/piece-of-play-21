@@ -23,6 +23,7 @@ export type Product = {
   included: string[];
   skills: string[];
   preview_pages: number;
+  preview_images: string[];
   sort_order: number;
   active: boolean;
 };
@@ -41,6 +42,15 @@ export async function resolveSignedUrl(
   if (path.startsWith("http")) return path;
   const { data } = await supabase.storage.from(bucket).createSignedUrl(path, expiresIn);
   return data?.signedUrl ?? null;
+}
+
+// product-previews is a public bucket, so previews resolve to plain public URLs (no signing needed).
+export function resolvePreviewUrls(paths: string[] | null | undefined): string[] {
+  if (!paths || paths.length === 0) return [];
+  return paths.map((path) => {
+    if (path.startsWith("http")) return path;
+    return supabase.storage.from("product-previews").getPublicUrl(path).data.publicUrl;
+  });
 }
 
 export async function fetchProducts(opts: { activeOnly?: boolean } = {}) {
