@@ -117,8 +117,8 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                 </a>
               </li>
               <li>
-                <a href="mailto:hello@pieceofplay.co" className="inline-flex items-center gap-2 hover:text-mustard">
-                  <Mail className="h-4 w-4" /> hello@pieceofplay.co
+                <a href="mailto:sensorypiece@gmail.com" className="inline-flex items-center gap-2 hover:text-mustard">
+                  <Mail className="h-4 w-4" /> sensorypiece@gmail.com
                 </a>
               </li>
             </ul>

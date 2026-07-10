@@ -19,7 +19,7 @@ export const Route = createFileRoute("/contact")({
 const channels = [
   { icon: MessageCircle, label: "WhatsApp", value: "Chat with me", href: whatsappLink("Hi Ilodi 😊"), tone: "bg-sage/50" },
   { icon: Facebook, label: "Facebook", value: "Piece of Play", href: "https://www.facebook.com/share/19DCqYmyMK/", tone: "bg-lilac/40" },
-  { icon: Mail, label: "Email", value: "hello@pieceofplay.co", href: "mailto:hello@pieceofplay.co", tone: "bg-mustard/30" },
+  { icon: Mail, label: "Email", value: "sensorypiece@gmail.com", href: "mailto:sensorypiece@gmail.com", tone: "bg-mustard/30" },
 ];
 
 function ContactPage() {
