@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Download } from "lucide-react";
 import { SiteLayout, AccentBadge } from "@/components/site-layout";
-import { fetchProducts, resolveSignedUrl, resolveFreeFileUrl, type Product } from "@/lib/products-db";
+import { fetchProducts, resolveSignedUrl, resolveFreeFileUrl, incrementDownloadCount, type Product } from "@/lib/products-db";
 
 export const Route = createFileRoute("/free")({
   component: FreePage,
@@ -91,6 +91,7 @@ function FreeResourceCard({ r }: { r: Product }) {
             download
             target="_blank"
             rel="noreferrer"
+            onClick={() => incrementDownloadCount(r.id)}
             className="mt-4 inline-flex items-center justify-center gap-2 w-full rounded-full bg-primary text-primary-foreground px-5 py-2.5 font-medium hover:opacity-90 transition"
           >
             <Download className="h-4 w-4" /> Download now

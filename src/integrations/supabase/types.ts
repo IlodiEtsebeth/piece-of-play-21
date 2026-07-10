@@ -52,6 +52,7 @@ export type Database = {
           included: string[]
           is_free: boolean
           is_featured: boolean
+          download_count: number
           name: string
           pdf_url: string | null
           preview_images: string[]
@@ -76,6 +77,7 @@ export type Database = {
           included?: string[]
           is_free?: boolean
           is_featured?: boolean
+          download_count?: number
           name: string
           pdf_url?: string | null
           preview_images?: string[]
@@ -100,6 +102,7 @@ export type Database = {
           included?: string[]
           is_free?: boolean
           is_featured?: boolean
+          download_count?: number
           name?: string
           pdf_url?: string | null
           preview_images?: string[]

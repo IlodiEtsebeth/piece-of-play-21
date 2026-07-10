@@ -26,6 +26,7 @@ export type Product = {
   preview_images: string[];
   is_free: boolean;
   is_featured: boolean;
+  download_count: number;
   sort_order: number;
   active: boolean;
 };
@@ -60,6 +61,10 @@ export function resolveFreeFileUrl(path: string | null | undefined): string | nu
   if (!path) return null;
   if (path.startsWith("http")) return path;
   return supabase.storage.from("free-resources").getPublicUrl(path).data.publicUrl;
+}
+
+export async function incrementDownloadCount(productId: string): Promise<void> {
+  await supabase.rpc("increment_download_count", { product_id: productId });
 }
 
 export async function fetchProducts(opts: { activeOnly?: boolean } = {}) {

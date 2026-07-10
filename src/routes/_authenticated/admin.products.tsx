@@ -38,6 +38,7 @@ const emptyProduct = (): Product => ({
   preview_images: [],
   is_free: false,
   is_featured: false,
+  download_count: 0,
   sort_order: 0,
   active: true,
 });
@@ -113,7 +114,9 @@ function ProductsPage() {
               <div className="font-medium truncate">{p.name}</div>
               <div className="text-xs text-muted-foreground truncate">{p.slug}</div>
             </div>
-            <div className="text-sm">R{(p.price_cents / 100).toFixed(0)}</div>
+            <div className="text-sm">
+              {p.is_free ? `${p.download_count} download${p.download_count === 1 ? "" : "s"}` : `R${(p.price_cents / 100).toFixed(0)}`}
+            </div>
             <div className="text-xs">
               <span
                 className={`inline-block rounded-full px-2 py-0.5 ${p.active ? "bg-sage/40 text-forest" : "bg-muted text-muted-foreground"}`}
