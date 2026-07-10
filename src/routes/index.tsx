@@ -56,7 +56,7 @@ function Home() {
                 to="/free"
                 className="inline-flex items-center gap-2 rounded-full bg-mustard text-forest px-6 py-3.5 font-medium shadow-soft hover:brightness-105"
               >
-                <Download className="h-4 w-4" /> Download FREE Checklist
+                <Download className="h-4 w-4" /> Free Resources
               </Link>
             </div>
             <div className="mt-8 flex items-center gap-6 text-sm text-foreground/70">
@@ -193,7 +193,7 @@ function Home() {
               to="/free"
               className="mt-6 self-start inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3.5 font-medium shadow-soft hover:opacity-90"
             >
-              <Download className="h-4 w-4" /> Get the free checklist
+              <Download className="h-4 w-4" /> See free resources
             </Link>
           </div>
           <div className="relative min-h-[280px] flex items-center justify-center p-8">

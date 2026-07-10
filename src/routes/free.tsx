@@ -1,123 +1,104 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
-import { Download, CheckCircle2, Mail, User } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { Download } from "lucide-react";
 import { SiteLayout, AccentBadge } from "@/components/site-layout";
-import checklist from "@/assets/checklist.jpg";
+import { fetchProducts, resolveSignedUrl, resolveFreeFileUrl, type Product } from "@/lib/products-db";
 
 export const Route = createFileRoute("/free")({
   component: FreePage,
   head: () => ({
     meta: [
-      { title: "Free School Readiness Checklist — Piece of Play" },
+      { title: "Free Resources — Piece of Play" },
       {
         name: "description",
-        content: "Download our free School Readiness Checklist for parents of children aged 3–6.",
+        content: "Free printable resources for parents and teachers — download instantly, no sign-up needed.",
       },
-      { property: "og:title", content: "Free School Readiness Checklist" },
-      { property: "og:description", content: "A simple, gentle guide for parents." },
     ],
     links: [{ rel: "canonical", href: "/free" }],
   }),
 });
 
 function FreePage() {
-  const [submitted, setSubmitted] = useState(false);
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
+  const { data: allProducts = [], isLoading } = useQuery({
+    queryKey: ["products", "active"],
+    queryFn: () => fetchProducts({ activeOnly: true }),
+  });
+  const resources = allProducts.filter((p) => p.is_free);
 
   return (
     <SiteLayout>
       <section className="bg-hero-blush">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <AccentBadge tone="mustard">FREE Download</AccentBadge>
-            <h1 className="mt-3 font-display text-4xl sm:text-5xl">School Readiness Checklist</h1>
-            <p className="mt-4 text-foreground/75 leading-relaxed">
-              A gentle, teacher-designed checklist to help you see the skills your little one has mastered — and the ones we can play with together.
-            </p>
-            <ul className="mt-6 space-y-2 text-foreground/80">
-              {["Covers ages 3–6", "Fine-motor, language, maths & social skills", "Ready to print & use today"].map((t) => (
-                <li key={t} className="flex gap-2">
-                  <CheckCircle2 className="h-5 w-5 text-primary mt-0.5" /> {t}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="relative">
-            <div className="absolute inset-8 wash-sage -z-10" />
-            <img src={checklist} alt="Checklist illustration" className="paint w-full h-auto max-w-md mx-auto" />
-          </div>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center">
+          <AccentBadge tone="mustard">Free Resources</AccentBadge>
+          <h1 className="mt-3 font-display text-4xl sm:text-5xl">Free for you to download</h1>
+          <p className="mt-4 text-foreground/70 max-w-xl mx-auto">
+            A few printable resources, free of charge — download instantly, no email needed.
+          </p>
         </div>
       </section>
-
-      <section className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-16">
-        <div className="rounded-[2.5rem] surface-paper shadow-soft p-8 sm:p-10">
-          {submitted ? (
-            <div className="text-center py-8">
-              <div className="mx-auto h-16 w-16 rounded-full bg-sage/60 grid place-items-center">
-                <CheckCircle2 className="h-8 w-8 text-forest" />
-              </div>
-              <h2 className="mt-5 text-2xl">Thank you!</h2>
-              <p className="mt-2 text-foreground/70">
-                Your free checklist is ready to download.
-              </p>
-              <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
-                className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3.5 font-medium shadow-soft hover:opacity-90"
-              >
-                <Download className="h-4 w-4" /> Download PDF
-              </a>
-            </div>
-          ) : (
-            <form onSubmit={onSubmit} className="space-y-5">
-              <div>
-                <h2 className="text-2xl">Send it to me</h2>
-                <p className="text-sm text-foreground/70 mt-1">Enter your details to receive your free checklist.</p>
-              </div>
-              <Field label="Your name" icon={<User className="h-4 w-4" />}>
-                <input
-                  required
-                  type="text"
-                  placeholder="Jane"
-                  className="w-full bg-transparent outline-none py-2"
-                />
-              </Field>
-              <Field label="Email address" icon={<Mail className="h-4 w-4" />}>
-                <input
-                  required
-                  type="email"
-                  placeholder="jane@email.com"
-                  className="w-full bg-transparent outline-none py-2"
-                />
-              </Field>
-              <button
-                type="submit"
-                className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3.5 font-medium shadow-soft hover:opacity-90"
-              >
-                <Download className="h-4 w-4" /> Send me the checklist
-              </button>
-              <p className="text-xs text-muted-foreground text-center">
-                No spam, ever. Unsubscribe anytime.
-              </p>
-            </form>
-          )}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+        {isLoading && <p className="text-muted-foreground">Loading resources…</p>}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {resources.map((r) => (
+            <FreeResourceCard key={r.id} r={r} />
+          ))}
         </div>
+        {!isLoading && resources.length === 0 && (
+          <p className="text-center text-muted-foreground">
+            No free resources just yet — check back soon.
+          </p>
+        )}
       </section>
     </SiteLayout>
   );
 }
 
-function Field({ label, icon, children }: { label: string; icon: React.ReactNode; children: React.ReactNode }) {
+function FreeResourceCard({ r }: { r: Product }) {
+  const [img, setImg] = useState<string | null>(null);
+  useEffect(() => {
+    resolveSignedUrl("product-images", r.image_url).then(setImg);
+  }, [r.image_url]);
+  const fileUrl = resolveFreeFileUrl(r.pdf_url);
+
   return (
-    <label className="block">
-      <span className="text-sm font-medium text-foreground/80">{label}</span>
-      <div className="mt-1.5 flex items-center gap-2 rounded-2xl border-2 border-border bg-background px-4 focus-within:border-mustard transition-colors">
-        <span className="text-muted-foreground">{icon}</span>
-        {children}
+    <div className="group block surface-paper rounded-[2rem] overflow-hidden shadow-soft hover:shadow-pop transition-shadow">
+      <div className="relative aspect-square overflow-hidden p-4">
+        <div className="absolute inset-6 wash-sage -z-0" />
+        {img ? (
+          <img
+            src={img}
+            alt={r.name}
+            loading="lazy"
+            className="paint relative z-10 h-full w-full object-contain group-hover:scale-[1.03] transition-transform duration-500"
+          />
+        ) : (
+          <div className="relative z-10 h-full w-full grid place-items-center font-display text-3xl text-primary/40">
+            {r.name.split(" ")[0]}
+          </div>
+        )}
+        <span className="absolute top-3 left-3 z-20 font-accent text-lg leading-none bg-sage/80 text-forest rounded-full px-3 py-1">
+          FREE
+        </span>
       </div>
-    </label>
+      <div className="p-5 pt-2">
+        <div className="text-xs font-medium text-muted-foreground">{r.age_group}</div>
+        <h3 className="mt-1 text-xl">{r.name}</h3>
+        <p className="mt-2 text-sm text-foreground/70 line-clamp-2">{r.short}</p>
+        {fileUrl ? (
+          <a
+            href={fileUrl}
+            download
+            target="_blank"
+            rel="noreferrer"
+            className="mt-4 inline-flex items-center justify-center gap-2 w-full rounded-full bg-primary text-primary-foreground px-5 py-2.5 font-medium hover:opacity-90 transition"
+          >
+            <Download className="h-4 w-4" /> Download now
+          </a>
+        ) : (
+          <span className="mt-4 block text-center text-sm text-muted-foreground">Coming soon</span>
+        )}
+      </div>
+    </div>
   );
 }

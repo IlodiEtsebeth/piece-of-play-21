@@ -24,6 +24,7 @@ export type Product = {
   skills: string[];
   preview_pages: number;
   preview_images: string[];
+  is_free: boolean;
   sort_order: number;
   active: boolean;
 };
@@ -51,6 +52,13 @@ export function resolvePreviewUrls(paths: string[] | null | undefined): string[]
     if (path.startsWith("http")) return path;
     return supabase.storage.from("product-previews").getPublicUrl(path).data.publicUrl;
   });
+}
+
+// free-resources is a public bucket — free downloads resolve directly, no signing needed.
+export function resolveFreeFileUrl(path: string | null | undefined): string | null {
+  if (!path) return null;
+  if (path.startsWith("http")) return path;
+  return supabase.storage.from("free-resources").getPublicUrl(path).data.publicUrl;
 }
 
 export async function fetchProducts(opts: { activeOnly?: boolean } = {}) {

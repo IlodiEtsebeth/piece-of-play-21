@@ -23,10 +23,11 @@ function ShopLayout() {
   const isChild = matches.some((m) => m.routeId === "/shop/$slug");
   if (isChild) return <Outlet />;
 
-  const { data: products = [], isLoading } = useQuery({
+  const { data: allProducts = [], isLoading } = useQuery({
     queryKey: ["products", "active"],
     queryFn: () => fetchProducts({ activeOnly: true }),
   });
+  const products = allProducts.filter((p) => !p.is_free);
 
   return (
     <SiteLayout>

@@ -5,7 +5,7 @@ import { Plus, Trash2, Save, Upload, ExternalLink, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import type { Product, Category } from "@/lib/products-db";
-import { resolveSignedUrl, resolvePreviewUrls } from "@/lib/products-db";
+import { resolveSignedUrl, resolvePreviewUrls, resolveFreeFileUrl } from "@/lib/products-db";
 
 export const Route = createFileRoute("/_authenticated/admin/products")({
   component: ProductsPage,
@@ -36,6 +36,7 @@ const emptyProduct = (): Product => ({
   skills: [],
   preview_pages: 0,
   preview_images: [],
+  is_free: false,
   sort_order: 0,
   active: true,
 });
@@ -175,15 +176,19 @@ function ProductEditor({
 
   useEffect(() => {
     resolveSignedUrl("product-images", form.image_url).then(setImgPreview);
-    resolveSignedUrl("product-pdfs", form.pdf_url).then(setPdfLink);
+    if (form.is_free) {
+      setPdfLink(resolveFreeFileUrl(form.pdf_url));
+    } else {
+      resolveSignedUrl("product-pdfs", form.pdf_url).then(setPdfLink);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form.image_url, form.pdf_url]);
+  }, [form.image_url, form.pdf_url, form.is_free]);
 
   function set<K extends keyof Product>(k: K, v: Product[K]) {
     setForm((f) => ({ ...f, [k]: v }));
   }
 
-  async function uploadFile(file: File, bucket: "product-images" | "product-pdfs") {
+  async function uploadFile(file: File, bucket: "product-images" | "product-pdfs" | "free-resources") {
     const ext = file.name.split(".").pop() ?? "bin";
     const path = `${crypto.randomUUID()}.${ext}`;
     const { error } = await supabase.storage.from(bucket).upload(path, file, {
@@ -215,9 +220,9 @@ function ProductEditor({
     if (!file) return;
     setBusy(true);
     try {
-      const path = await uploadFile(file, "product-pdfs");
+      const path = await uploadFile(file, form.is_free ? "free-resources" : "product-pdfs");
       set("pdf_url", path);
-      toast.success("PDF uploaded");
+      toast.success("File uploaded");
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Upload failed");
     } finally {
@@ -278,6 +283,7 @@ function ProductEditor({
       skills: form.skills,
       preview_pages: form.preview_pages,
       preview_images: form.preview_images,
+      is_free: form.is_free,
       sort_order: form.sort_order,
       active: form.active,
     };
@@ -347,14 +353,24 @@ function ProductEditor({
             />
           </Field>
 
+          <label className="inline-flex items-center gap-2 text-sm rounded-2xl bg-sage/20 px-4 py-3 border border-sage/40">
+            <input
+              type="checkbox"
+              checked={form.is_free}
+              onChange={(e) => set("is_free", e.target.checked)}
+            />
+            Free resource — visitors download instantly, no price, no WhatsApp order
+          </label>
+
           <div className="grid sm:grid-cols-3 gap-4">
-            <Field label="Price (Rand)">
+            <Field label={form.is_free ? "Price (locked at R0)" : "Price (Rand)"}>
               <input
                 type="number"
                 min={0}
-                value={(form.price_cents / 100).toString()}
+                disabled={form.is_free}
+                value={form.is_free ? 0 : (form.price_cents / 100).toString()}
                 onChange={(e) => set("price_cents", Math.round(Number(e.target.value) * 100))}
-                className="input"
+                className="input disabled:opacity-50"
               />
             </Field>
             <Field label="Age group">
@@ -403,7 +419,7 @@ function ProductEditor({
                 )}
               </div>
             </Field>
-            <Field label="Product PDF">
+            <Field label={form.is_free ? "Resource file (public download)" : "Product PDF"}>
               <div className="flex items-center gap-3">
                 {pdfLink ? (
                   <a
@@ -430,6 +446,11 @@ function ProductEditor({
                   </button>
                 )}
               </div>
+              {form.is_free && (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  If you just switched this to a free resource, re-upload the file so it moves to the public download bucket.
+                </p>
+              )}
             </Field>
           </div>
 
