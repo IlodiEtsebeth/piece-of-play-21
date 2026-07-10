@@ -4,7 +4,7 @@ import { ArrowRight, Download, Heart, Sparkles, Palette, GraduationCap, Star } f
 import { SiteLayout, AccentBadge } from "@/components/site-layout";
 import { ProductCard } from "@/routes/shop";
 import { fetchProducts } from "@/lib/products-db";
-import hero from "@/assets/hero.jpg";
+import hero from "@/assets/hero.png";
 import aboutImg from "@/assets/about-ilodi.png";
 
 export const Route = createFileRoute("/")({
