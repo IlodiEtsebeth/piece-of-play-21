@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { GraduationCap, Heart, Sparkles, BookOpen, ArrowRight } from "lucide-react";
 import { SiteLayout, AccentBadge } from "@/components/site-layout";
-import aboutImg from "@/assets/about-ilodi.jpg";
+import aboutImg from "@/assets/about-ilodi.png";
 
 export const Route = createFileRoute("/about")({
   component: AboutPage,
@@ -33,10 +33,13 @@ function AboutPage() {
             <AccentBadge tone="lilac">Hi, I'm Ilodi</AccentBadge>
             <h1 className="mt-3 font-display text-4xl sm:text-5xl">The teacher behind Piece of Play</h1>
             <p className="mt-5 text-foreground/75 leading-relaxed">
-              I've spent years in the classroom watching little humans discover the world. What I know for sure is this: children learn best when they are laughing, moving, exploring — when learning feels like play.
+              I've been teaching for 11 years — starting as a Grade R teacher, then Grade 1, before becoming a Remedial Teacher for Grades 1–3, and more recently for Grade R too. I'm now also Head of our Pre-Primary school, and at home, a mom to two young boys of my own.
             </p>
             <p className="mt-4 text-foreground/75 leading-relaxed">
-              Piece of Play is my way of putting the best of my classroom into your home. Every resource is designed with love, backed by experience, and made to give your child the joyful start they deserve.
+              Helping learners — and their parents — has been my passion since day one. I especially love working with neurodiverse children who struggle, helping them first discover what they're good at. I believe a happy, confident child is a learning child.
+            </p>
+            <p className="mt-4 text-foreground/75 leading-relaxed">
+              Piece of Play comes from that belief: play should never be an afterthought to learning — it's where real learning begins, from a young age.
             </p>
           </div>
         </div>
@@ -46,10 +49,10 @@ function AboutPage() {
         <h2 className="text-3xl sm:text-4xl text-center">What I bring to the table</h2>
         <div className="mt-10 grid md:grid-cols-2 gap-6">
           {[
-            { icon: GraduationCap, title: "Remedial Teacher", text: "Trained to spot how each child learns best and to gently support the skills that need extra love.", tone: "bg-mustard/30" },
-            { icon: BookOpen, title: "Pre-Primary Head", text: "Years of experience leading a pre-primary school and preparing hundreds of children for big school.", tone: "bg-sage/50" },
-            { icon: Sparkles, title: "Play-based approach", text: "Every resource is built on the belief that play is the most powerful teacher a child can have.", tone: "bg-coral/30" },
-            { icon: Heart, title: "Confidence first", text: "Meaningful learning experiences that help children believe in themselves before, during and after school.", tone: "bg-lilac/40" },
+            { icon: GraduationCap, title: "11 years teaching", text: "From Grade R to Grade 1 to Remedial Teacher for Grades R–3 — years of hands-on classroom experience.", tone: "bg-mustard/30" },
+            { icon: BookOpen, title: "Pre-Primary Head", text: "Now leading our Pre-Primary school, alongside remedial teaching and being mom to two young boys.", tone: "bg-sage/50" },
+            { icon: Sparkles, title: "Neurodiverse focus", text: "A special love for helping learners who struggle first discover what they're good at.", tone: "bg-coral/30" },
+            { icon: Heart, title: "Confidence first", text: "A happy, confident child is a learning child — that belief shapes everything I create.", tone: "bg-lilac/40" },
           ].map((f) => (
             <div key={f.title} className="surface-paper rounded-[2rem] p-7 shadow-soft flex gap-4">
               <div className={`h-12 w-12 shrink-0 rounded-2xl grid place-items-center ${f.tone}`}>

@@ -5,7 +5,7 @@ import { SiteLayout, AccentBadge } from "@/components/site-layout";
 import { ProductCard } from "@/routes/shop";
 import { fetchProducts } from "@/lib/products-db";
 import hero from "@/assets/hero.jpg";
-import aboutImg from "@/assets/about-ilodi.jpg";
+import aboutImg from "@/assets/about-ilodi.png";
 
 export const Route = createFileRoute("/")({
   component: Home,
