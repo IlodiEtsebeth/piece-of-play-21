@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Download, Heart, Sparkles, Palette, GraduationCap, Star } from "lucide-react";
 import { SiteLayout, AccentBadge } from "@/components/site-layout";
-import { products } from "@/lib/products";
+import { ProductCard } from "@/routes/shop";
+import { fetchProducts } from "@/lib/products-db";
 import hero from "@/assets/hero.jpg";
 import checklist from "@/assets/checklist.jpg";
 import aboutImg from "@/assets/about-ilodi.jpg";
@@ -27,6 +29,12 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const { data: allProducts = [] } = useQuery({
+    queryKey: ["products", "active"],
+    queryFn: () => fetchProducts({ activeOnly: true }),
+  });
+  const featured = allProducts.filter((p) => !p.is_free).slice(0, 3);
+
   return (
     <SiteLayout>
       {/* HERO */}
@@ -109,10 +117,13 @@ function Home() {
           </Link>
         </div>
         <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.slice(0, 3).map((p) => (
-            <ProductCard key={p.slug} product={p} />
+          {featured.map((p) => (
+            <ProductCard key={p.id} p={p} />
           ))}
         </div>
+        {featured.length === 0 && (
+          <p className="mt-10 text-center text-muted-foreground">Products coming soon.</p>
+        )}
       </section>
 
       {/* WHY PARENTS LOVE */}
@@ -220,36 +231,5 @@ function Home() {
         </div>
       </section>
     </SiteLayout>
-  );
-}
-
-function ProductCard({ product }: { product: (typeof products)[number] }) {
-  return (
-    <Link
-      to="/shop/$slug"
-      params={{ slug: product.slug }}
-      className="group block surface-paper rounded-[2rem] overflow-hidden shadow-soft hover:shadow-pop transition-shadow"
-    >
-      <div className="relative aspect-square overflow-hidden p-4">
-        <div className="absolute inset-6 wash-blush -z-0" />
-        <img src={product.image} alt={product.name} loading="lazy" className="paint relative z-10 h-full w-full object-contain group-hover:scale-[1.03] transition-transform duration-500" />
-        {product.badge && (
-          <span className="absolute top-3 left-3 z-20 font-accent text-lg leading-none bg-mustard/80 text-forest rounded-full px-3 py-1">
-            {product.badge}
-          </span>
-        )}
-      </div>
-      <div className="p-5 pt-2">
-        <div className="text-xs font-medium text-muted-foreground">{product.ageGroup}</div>
-        <h3 className="mt-1 text-xl">{product.name}</h3>
-        <p className="mt-2 text-sm text-foreground/70 line-clamp-2">{product.short}</p>
-        <div className="mt-4 flex items-center justify-between">
-          <span className="font-display text-lg text-primary">{product.price}</span>
-          <span className="inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">
-            View <ArrowRight className="h-4 w-4" />
-          </span>
-        </div>
-      </div>
-    </Link>
   );
 }
