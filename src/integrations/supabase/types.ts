@@ -51,6 +51,7 @@ export type Database = {
           image_url: string | null
           included: string[]
           is_free: boolean
+          is_featured: boolean
           name: string
           pdf_url: string | null
           preview_images: string[]
@@ -74,6 +75,7 @@ export type Database = {
           image_url?: string | null
           included?: string[]
           is_free?: boolean
+          is_featured?: boolean
           name: string
           pdf_url?: string | null
           preview_images?: string[]
@@ -97,6 +99,7 @@ export type Database = {
           image_url?: string | null
           included?: string[]
           is_free?: boolean
+          is_featured?: boolean
           name?: string
           pdf_url?: string | null
           preview_images?: string[]

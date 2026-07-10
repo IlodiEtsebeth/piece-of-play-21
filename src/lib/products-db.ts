@@ -25,6 +25,7 @@ export type Product = {
   preview_pages: number;
   preview_images: string[];
   is_free: boolean;
+  is_featured: boolean;
   sort_order: number;
   active: boolean;
 };

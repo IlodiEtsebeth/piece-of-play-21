@@ -5,7 +5,6 @@ import { SiteLayout, AccentBadge } from "@/components/site-layout";
 import { ProductCard } from "@/routes/shop";
 import { fetchProducts } from "@/lib/products-db";
 import hero from "@/assets/hero.jpg";
-import checklist from "@/assets/checklist.jpg";
 import aboutImg from "@/assets/about-ilodi.jpg";
 
 export const Route = createFileRoute("/")({
@@ -33,7 +32,7 @@ function Home() {
     queryKey: ["products", "active"],
     queryFn: () => fetchProducts({ activeOnly: true }),
   });
-  const featured = allProducts.filter((p) => !p.is_free).slice(0, 3);
+  const featured = allProducts.filter((p) => !p.is_free && p.is_featured).slice(0, 3);
 
   return (
     <SiteLayout>
@@ -41,7 +40,7 @@ function Home() {
       <section className="bg-hero-blush">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24 grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <AccentBadge tone="mustard">Play Tip · Learning that feels like play</AccentBadge>
+            <AccentBadge tone="mustard">Playing always leads to learning</AccentBadge>
             <h1 className="mt-5 font-display text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.05] text-primary">
               Helping Little Learners{" "}
               <span className="relative inline-block">
@@ -109,7 +108,7 @@ function Home() {
             <AccentBadge tone="coral">Featured</AccentBadge>
             <h2 className="mt-3 text-3xl sm:text-4xl">Featured Resources</h2>
             <p className="mt-2 text-foreground/70 max-w-xl">
-              Hand-crafted printable packs your child will actually want to sit down with.
+              I create every resource myself, print it with love, and deliver it straight to you.
             </p>
           </div>
           <Link to="/shop" className="inline-flex items-center gap-1 text-primary font-medium hover:gap-2 transition-all">
@@ -188,29 +187,6 @@ function Home() {
           >
             Read my story <ArrowRight className="h-4 w-4" />
           </Link>
-        </div>
-      </section>
-
-      {/* FREE RESOURCE */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="rounded-[2.5rem] surface-paper overflow-hidden grid lg:grid-cols-2 shadow-soft">
-          <div className="p-10 sm:p-14 flex flex-col justify-center">
-            <AccentBadge tone="mustard">FREE Download</AccentBadge>
-            <h2 className="mt-3 text-3xl sm:text-4xl">Is your child ready for school?</h2>
-            <p className="mt-4 text-foreground/75 leading-relaxed max-w-lg">
-              Grab our free School Readiness Checklist — a simple, gentle guide to help you spot the skills your little one has mastered, and the ones we can play with together.
-            </p>
-            <Link
-              to="/free"
-              className="mt-6 self-start inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3.5 font-medium shadow-soft hover:opacity-90"
-            >
-              <Download className="h-4 w-4" /> See free resources
-            </Link>
-          </div>
-          <div className="relative min-h-[280px] flex items-center justify-center p-8">
-            <div className="absolute inset-10 wash-sage -z-10" />
-            <img src={checklist} alt="School readiness checklist illustration" width={1000} height={800} loading="lazy" className="paint max-h-80 w-auto" />
-          </div>
         </div>
       </section>
 

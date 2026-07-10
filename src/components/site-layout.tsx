@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
-import { Menu, X, Instagram, Facebook, Mail, MessageCircle } from "lucide-react";
+import { Menu, X, Facebook, Mail, MessageCircle } from "lucide-react";
 import logo from "@/assets/logo.png";
 import handMadeBadge from "@/assets/hand-made-badge.png.asset.json";
 import { whatsappLink } from "@/lib/products";
@@ -20,7 +20,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       <header className="sticky top-0 z-40 bg-background/85 backdrop-blur border-b border-border/60">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-20 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
           <Link to="/" className="flex min-w-0 items-center gap-3">
-            <img src={logo} alt="Piece of Play" className="h-11 w-11 shrink-0 rounded-2xl object-cover" />
+            <img src={logo} alt="Piece of Play" className="h-14 w-14 shrink-0 rounded-2xl object-cover" />
             <span className="font-display text-lg sm:text-xl font-semibold text-primary truncate">
               Piece of Play
             </span>
@@ -112,12 +112,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
                 </a>
               </li>
               <li>
-                <a href="https://instagram.com" className="inline-flex items-center gap-2 hover:text-mustard">
-                  <Instagram className="h-4 w-4" /> Instagram
-                </a>
-              </li>
-              <li>
-                <a href="https://facebook.com" className="inline-flex items-center gap-2 hover:text-mustard">
+                <a href="https://www.facebook.com/share/19DCqYmyMK/" className="inline-flex items-center gap-2 hover:text-mustard">
                   <Facebook className="h-4 w-4" /> Facebook
                 </a>
               </li>

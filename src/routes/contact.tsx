@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { MessageCircle, Instagram, Facebook, Mail, Send, CheckCircle2 } from "lucide-react";
+import { MessageCircle, Facebook, Mail, Send, CheckCircle2 } from "lucide-react";
 import { SiteLayout, AccentBadge } from "@/components/site-layout";
 import { whatsappLink } from "@/lib/products";
 
@@ -19,8 +19,7 @@ export const Route = createFileRoute("/contact")({
 
 const channels = [
   { icon: MessageCircle, label: "WhatsApp", value: "Chat with me", href: whatsappLink("Hi Ilodi 😊"), tone: "bg-sage/50" },
-  { icon: Instagram, label: "Instagram", value: "@pieceofplay", href: "https://instagram.com", tone: "bg-coral/30" },
-  { icon: Facebook, label: "Facebook", value: "Piece of Play", href: "https://facebook.com", tone: "bg-lilac/40" },
+  { icon: Facebook, label: "Facebook", value: "Piece of Play", href: "https://www.facebook.com/share/19DCqYmyMK/", tone: "bg-lilac/40" },
   { icon: Mail, label: "Email", value: "hello@pieceofplay.co", href: "mailto:hello@pieceofplay.co", tone: "bg-mustard/30" },
 ];
 

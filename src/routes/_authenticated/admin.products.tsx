@@ -37,6 +37,7 @@ const emptyProduct = (): Product => ({
   preview_pages: 0,
   preview_images: [],
   is_free: false,
+  is_featured: false,
   sort_order: 0,
   active: true,
 });
@@ -284,6 +285,7 @@ function ProductEditor({
       preview_pages: form.preview_pages,
       preview_images: form.preview_images,
       is_free: form.is_free,
+      is_featured: form.is_featured,
       sort_order: form.sort_order,
       active: form.active,
     };
@@ -360,6 +362,15 @@ function ProductEditor({
               onChange={(e) => set("is_free", e.target.checked)}
             />
             Free resource — visitors download instantly, no price, no WhatsApp order
+          </label>
+
+          <label className="inline-flex items-center gap-2 text-sm rounded-2xl bg-mustard/20 px-4 py-3 border border-mustard/40">
+            <input
+              type="checkbox"
+              checked={form.is_featured}
+              onChange={(e) => set("is_featured", e.target.checked)}
+            />
+            Show in "Featured Resources" on the homepage
           </label>
 
           <div className="grid sm:grid-cols-3 gap-4">
