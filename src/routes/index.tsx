@@ -108,7 +108,7 @@ function Home() {
             <AccentBadge tone="coral">Featured</AccentBadge>
             <h2 className="mt-3 text-3xl sm:text-4xl">Featured Resources</h2>
             <p className="mt-2 text-foreground/70 max-w-xl">
-              I create every resource myself, print it with love, and deliver it straight to you.
+              Thoughtfully designed learning resources to inspire play, curiosity and confident little learners.
             </p>
           </div>
           <Link to="/shop" className="inline-flex items-center gap-1 text-primary font-medium hover:gap-2 transition-all">
