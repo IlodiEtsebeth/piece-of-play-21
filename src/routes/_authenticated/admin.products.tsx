@@ -303,14 +303,15 @@ function ProductEditor({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/40 grid place-items-end sm:place-items-center p-0 sm:p-4 overflow-y-auto">
-      <div className="bg-background w-full sm:max-w-3xl rounded-t-[2rem] sm:rounded-[2rem] shadow-pop max-h-[95vh] overflow-y-auto">
+      <div className="bg-background w-full sm:max-w-6xl rounded-t-[2rem] sm:rounded-[2rem] shadow-pop max-h-[95vh] overflow-y-auto">
         <div className="sticky top-0 bg-background border-b border-border/60 px-6 py-4 flex items-center justify-between z-10">
           <h2 className="font-display text-xl">{isNew ? "New product" : "Edit product"}</h2>
           <button onClick={onClose} className="p-2 rounded-full hover:bg-muted">
             <X className="h-5 w-5" />
           </button>
         </div>
-        <div className="p-6 space-y-5">
+        <div className="p-6 grid lg:grid-cols-[1fr_320px] gap-8 items-start">
+        <div className="space-y-5">
           <Field label="Name">
             <input
               value={form.name}
@@ -546,6 +547,61 @@ function ProductEditor({
               </label>
             </div>
           </div>
+        </div>
+
+        <div className="lg:sticky lg:top-20">
+          <p className="text-xs font-medium text-muted-foreground mb-2 uppercase tracking-wide">
+            Live preview — how it looks on the shop
+          </p>
+          <div className="surface-paper rounded-[1.75rem] overflow-hidden shadow-soft max-w-[280px] mx-auto lg:mx-0">
+            <div className="relative aspect-square overflow-hidden p-4 bg-blush/20">
+              {imgPreview ? (
+                <img
+                  src={imgPreview}
+                  alt=""
+                  className="relative z-10 h-full w-full object-contain"
+                />
+              ) : (
+                <div className="h-full w-full grid place-items-center text-sm text-muted-foreground">
+                  No cover image yet
+                </div>
+              )}
+              {form.badge && (
+                <span className="absolute top-3 left-3 z-20 font-accent text-base leading-none bg-mustard/80 text-forest rounded-full px-3 py-1">
+                  {form.badge}
+                </span>
+              )}
+              {form.is_free && (
+                <span className="absolute top-3 left-3 z-20 font-accent text-base leading-none bg-sage/80 text-forest rounded-full px-3 py-1">
+                  FREE
+                </span>
+              )}
+              {form.coming_soon && (
+                <span className="absolute top-3 right-3 z-20 text-xs font-medium bg-background/90 text-foreground rounded-full px-3 py-1">
+                  Coming soon
+                </span>
+              )}
+            </div>
+            <div className="p-4 pt-2">
+              <div className="text-xs font-medium text-muted-foreground">{form.age_group || "Ages —"}</div>
+              <h3 className="mt-1 text-lg leading-tight">{form.name || "Untitled product"}</h3>
+              <p className="mt-1.5 text-sm text-foreground/70 line-clamp-2">{form.short || "Short description…"}</p>
+              <div className="mt-3 flex items-center justify-between">
+                <span className="font-display text-base text-primary">
+                  {form.is_free ? "FREE" : `R${(form.price_cents / 100).toFixed(0)}`}
+                </span>
+                <span className="text-xs font-medium text-primary">
+                  {form.is_free ? "Download now" : "View"}
+                </span>
+              </div>
+            </div>
+          </div>
+          {!form.active && (
+            <p className="mt-3 text-xs text-center text-muted-foreground">
+              Not active — won't show in the live shop until "Active" is checked.
+            </p>
+          )}
+        </div>
         </div>
         <div className="sticky bottom-0 bg-background border-t border-border/60 px-6 py-4 flex justify-end gap-3">
           <button
