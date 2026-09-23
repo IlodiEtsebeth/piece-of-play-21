@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { SiteLayout, AccentBadge } from "@/components/site-layout";
-import { fetchProducts, resolveSignedUrl, formatPrice, type Product } from "@/lib/products-db";
+import { fetchProducts, fetchCategories, resolveSignedUrl, formatPrice, type Product } from "@/lib/products-db";
 
 export const Route = createFileRoute("/shop")({
   component: ShopLayout,
@@ -27,10 +27,25 @@ function ShopLayout() {
     queryKey: ["products", "active"],
     queryFn: () => fetchProducts({ activeOnly: true }),
   });
+  const { data: categories = [] } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+  });
   const products = allProducts.filter((p) => !p.is_free);
-  const ageGroups = Array.from(new Set(products.map((p) => p.age_group))).sort();
+
+  const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
+  const usedCategoryIds = new Set(products.map((p) => p.category_id).filter(Boolean));
+  const activeCategories = categories.filter((c) => usedCategoryIds.has(c.id));
+  const byCategory = categoryFilter ? products.filter((p) => p.category_id === categoryFilter) : products;
+
   const [filter, setFilter] = useState<string | null>(null);
-  const filtered = filter ? products.filter((p) => p.age_group === filter) : products;
+  const ageGroups = Array.from(new Set(byCategory.map((p) => p.age_group))).sort();
+  const filtered = filter ? byCategory.filter((p) => p.age_group === filter) : byCategory;
+
+  function selectCategory(id: string | null) {
+    setCategoryFilter(id);
+    setFilter(null);
+  }
 
   return (
     <SiteLayout>
@@ -44,6 +59,29 @@ function ShopLayout() {
         </div>
       </section>
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+        {activeCategories.length > 1 && (
+          <div className="flex flex-wrap gap-2 justify-center mb-4">
+            <button
+              onClick={() => selectCategory(null)}
+              className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
+                categoryFilter === null ? "bg-forest text-background" : "surface-paper text-foreground/70 hover:text-foreground"
+              }`}
+            >
+              All categories
+            </button>
+            {activeCategories.map((c) => (
+              <button
+                key={c.id}
+                onClick={() => selectCategory(c.id)}
+                className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
+                  categoryFilter === c.id ? "bg-forest text-background" : "surface-paper text-foreground/70 hover:text-foreground"
+                }`}
+              >
+                {c.name}
+              </button>
+            ))}
+          </div>
+        )}
         {ageGroups.length > 1 && (
           <div className="flex flex-wrap gap-2 justify-center mb-10">
             <button
