@@ -1,1 +1,10 @@
 project_id = "nacymizgpzzbahvkmxgh"
+
+[functions.payfast-initiate]
+verify_jwt = false
+
+[functions.payfast-itn]
+verify_jwt = false
+
+[functions.order-download]
+verify_jwt = false

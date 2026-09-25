@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as FreeRouteImport } from './routes/free'
@@ -23,6 +24,11 @@ import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminProductsRouteImport } from './routes/_authenticated/admin.products'
 import { Route as AuthenticatedAdminCategoriesRouteImport } from './routes/_authenticated/admin.categories'
 
+const ThankYouRoute = ThankYouRouteImport.update({
+  id: '/thank-you',
+  path: '/thank-you',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -98,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/free': typeof FreeRoute
   '/shop': typeof ShopRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/thank-you': typeof ThankYouRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/shop/$slug': typeof ShopSlugRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
@@ -112,6 +119,7 @@ export interface FileRoutesByTo {
   '/free': typeof FreeRoute
   '/shop': typeof ShopRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/thank-you': typeof ThankYouRoute
   '/shop/$slug': typeof ShopSlugRoute
   '/admin/categories': typeof AuthenticatedAdminCategoriesRoute
   '/admin/products': typeof AuthenticatedAdminProductsRoute
@@ -127,6 +135,7 @@ export interface FileRoutesById {
   '/free': typeof FreeRoute
   '/shop': typeof ShopRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/thank-you': typeof ThankYouRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/shop/$slug': typeof ShopSlugRoute
   '/_authenticated/admin/categories': typeof AuthenticatedAdminCategoriesRoute
@@ -143,6 +152,7 @@ export interface FileRouteTypes {
     | '/free'
     | '/shop'
     | '/sitemap.xml'
+    | '/thank-you'
     | '/admin'
     | '/shop/$slug'
     | '/admin/categories'
@@ -157,6 +167,7 @@ export interface FileRouteTypes {
     | '/free'
     | '/shop'
     | '/sitemap.xml'
+    | '/thank-you'
     | '/shop/$slug'
     | '/admin/categories'
     | '/admin/products'
@@ -171,6 +182,7 @@ export interface FileRouteTypes {
     | '/free'
     | '/shop'
     | '/sitemap.xml'
+    | '/thank-you'
     | '/_authenticated/admin'
     | '/shop/$slug'
     | '/_authenticated/admin/categories'
@@ -187,10 +199,18 @@ export interface RootRouteChildren {
   FreeRoute: typeof FreeRoute
   ShopRoute: typeof ShopRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ThankYouRoute: typeof ThankYouRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/thank-you': {
+      id: '/thank-you'
+      path: '/thank-you'
+      fullPath: '/thank-you'
+      preLoaderRoute: typeof ThankYouRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -330,6 +350,7 @@ const rootRouteChildren: RootRouteChildren = {
   FreeRoute: FreeRoute,
   ShopRoute: ShopRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ThankYouRoute: ThankYouRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

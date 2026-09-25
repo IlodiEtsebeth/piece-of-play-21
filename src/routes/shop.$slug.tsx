@@ -1,10 +1,10 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { ArrowLeft, Check, MessageCircle, Sparkles, Download } from "lucide-react";
+import { ArrowLeft, Check, Sparkles } from "lucide-react";
 import { SiteLayout, AccentBadge } from "@/components/site-layout";
 import { fetchProductBySlug, resolveSignedUrl, resolvePreviewUrls, formatPrice } from "@/lib/products-db";
-import { whatsappLink } from "@/lib/products";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/shop/$slug")({
   component: ProductPage,
@@ -15,6 +15,74 @@ export const Route = createFileRoute("/shop/$slug")({
     ],
   }),
 });
+
+function PayFastCheckout({ productId }: { productId: string }) {
+  const [email, setEmail] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handlePay(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setSubmitting(true);
+    try {
+      const { data, error: fnError } = await supabase.functions.invoke("payfast-initiate", {
+        body: { product_id: productId, email, site_url: window.location.origin },
+      });
+      if (fnError || !data || data.error) {
+        throw new Error(data?.error ?? fnError?.message ?? "Something went wrong");
+      }
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = data.process_url;
+      for (const [key, value] of Object.entries(data.fields as Record<string, string>)) {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = value;
+        form.appendChild(input);
+      }
+      const sigInput = document.createElement("input");
+      sigInput.type = "hidden";
+      sigInput.name = "signature";
+      sigInput.value = data.signature;
+      form.appendChild(sigInput);
+      document.body.appendChild(form);
+      form.submit();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong, please try again.");
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <>
+      <AccentBadge tone="mustard">Ready to order?</AccentBadge>
+      <h2 className="mt-3 text-3xl">Pay securely with PayFast</h2>
+      <p className="mt-3 text-foreground/75 max-w-lg mx-auto">
+        Enter your email and you'll be taken straight to PayFast to pay. Your download unlocks automatically the moment payment clears.
+      </p>
+      <form onSubmit={handlePay} className="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
+        <input
+          type="email"
+          required
+          placeholder="you@email.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="input flex-1"
+        />
+        <button
+          type="submit"
+          disabled={submitting}
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground px-8 py-3.5 font-semibold shadow-soft hover:opacity-90 transition disabled:opacity-60 whitespace-nowrap"
+        >
+          {submitting ? "Redirecting…" : "Pay with PayFast"}
+        </button>
+      </form>
+      {error && <p className="mt-3 text-sm text-destructive">{error}</p>}
+    </>
+  );
+}
 
 function ProductPage() {
   const { slug } = Route.useParams();
@@ -28,12 +96,10 @@ function ProductPage() {
   });
 
   const [img, setImg] = useState<string | null>(null);
-  const [pdf, setPdf] = useState<string | null>(null);
   const previewUrls = product ? resolvePreviewUrls(product.preview_images) : [];
   useEffect(() => {
     if (!product) return;
     resolveSignedUrl("product-images", product.image_url).then(setImg);
-    resolveSignedUrl("product-pdfs", product.pdf_url).then(setPdf);
   }, [product]);
 
   if (isLoading) {
@@ -55,8 +121,6 @@ function ProductPage() {
       </SiteLayout>
     );
   }
-
-  const message = `Hi Ilodi 😊 I'd like to order this resource: ${product.name}`;
 
   return (
     <SiteLayout>
@@ -138,36 +202,16 @@ function ProductPage() {
 
       <section className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16">
         <div className="rounded-[2.5rem] surface-paper p-8 sm:p-12 text-center shadow-soft">
-          <AccentBadge tone="mustard">Ready to order?</AccentBadge>
-          <h2 className="mt-3 text-3xl">Order in one message on WhatsApp</h2>
-          <p className="mt-3 text-foreground/75 max-w-lg mx-auto">
-            Send me a quick message and I'll pop the pack straight into your inbox after payment.
-          </p>
           {product.coming_soon ? (
-            <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-lilac/60 text-forest px-6 py-3.5 font-medium">
-              Coming soon — join the waitlist
-            </div>
+            <>
+              <AccentBadge tone="mustard">Ready to order?</AccentBadge>
+              <h2 className="mt-3 text-3xl">Coming soon</h2>
+              <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-lilac/60 text-forest px-6 py-3.5 font-medium">
+                Coming soon — join the waitlist
+              </div>
+            </>
           ) : (
-            <div className="mt-7 flex flex-wrap justify-center gap-3">
-              <a
-                href={whatsappLink(message)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-[#25D366] text-white px-8 py-4 font-semibold text-lg shadow-soft hover:brightness-105 transition"
-              >
-                <MessageCircle className="h-5 w-5" /> Order on WhatsApp
-              </a>
-              {pdf && (
-                <a
-                  href={pdf}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-4 font-medium shadow-soft hover:opacity-90"
-                >
-                  <Download className="h-5 w-5" /> Download PDF
-                </a>
-              )}
-            </div>
+            <PayFastCheckout productId={product.id} />
           )}
         </div>
       </section>
