@@ -13,6 +13,12 @@ const nav = [
   { to: "/contact", label: "Contact" },
 ] as const;
 
+const legal = [
+  { to: "/terms", label: "Terms and Conditions" },
+  { to: "/refunds", label: "Refund Policy" },
+  { to: "/privacy", label: "Privacy Policy" },
+] as const;
+
 export function SiteLayout({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   return (
@@ -127,6 +133,13 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         <div className="border-t border-primary-foreground/15">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-5 text-xs text-primary-foreground/70 flex flex-wrap justify-between gap-3">
             <span>© {new Date().getFullYear()} Piece of Play. Learning through play, one piece at a time.</span>
+            <nav aria-label="Policies" className="flex flex-wrap gap-x-4 gap-y-1">
+              {legal.map((l) => (
+                <Link key={l.to} to={l.to} className="hover:text-mustard transition-colors underline-offset-2 hover:underline">
+                  {l.label}
+                </Link>
+              ))}
+            </nav>
             <span className="font-accent text-mustard text-sm">For little learners ♥</span>
           </div>
         </div>

@@ -79,6 +79,17 @@ function PayFastCheckout({ productId }: { productId: string }) {
           {submitting ? "Redirecting…" : "Pay with PayFast"}
         </button>
       </form>
+      <p className="mt-3 text-xs text-foreground/60">
+        By paying, you agree to our{" "}
+        <Link to="/terms" className="underline underline-offset-2 hover:text-primary">
+          Terms and Conditions
+        </Link>{" "}
+        and{" "}
+        <Link to="/refunds" className="underline underline-offset-2 hover:text-primary">
+          Refund Policy
+        </Link>
+        .
+      </p>
       {error && <p className="mt-3 text-sm text-destructive">{error}</p>}
     </>
   );
