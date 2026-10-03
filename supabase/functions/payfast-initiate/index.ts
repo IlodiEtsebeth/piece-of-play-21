@@ -23,6 +23,14 @@ const MAX_QTY = 50;
 const MAX_LINES = 30;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// PayFast builds its signature with PHP's urlencode(), which also encodes
+// ! ' ( ) * ~ — characters JavaScript's encodeURIComponent leaves alone.
+// Encode exactly like PHP so names such as "Order (2 items)" still match.
+const pfEncode = (v: string) =>
+  encodeURIComponent(v.trim())
+    .replace(/[!'()*~]/g, (c) => "%" + c.charCodeAt(0).toString(16).toUpperCase())
+    .replace(/%20/g, "+");
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -89,8 +97,8 @@ Deno.serve(async (req) => {
       lines.length === 1 && lines[0].quantity === 1
         ? lines[0].product_name
         : lines.length === 1
-          ? `${lines[0].product_name} x${lines[0].quantity}`
-          : `Piece of Play order (${itemCount} items)`;
+          ? `${lines[0].product_name} - ${lines[0].quantity} licences`
+          : `Piece of Play order - ${itemCount} items`;
 
     const { data: order, error: orderErr } = await supabase
       .from("orders")
@@ -151,12 +159,8 @@ Deno.serve(async (req) => {
       ["item_name", summary.slice(0, 100)],
     );
 
-    const pfParamString = fields
-      .map(([k, v]) => `${k}=${encodeURIComponent(v.trim()).replace(/%20/g, "+")}`)
-      .join("&");
-    const withPassphrase = passphrase
-      ? `${pfParamString}&passphrase=${encodeURIComponent(passphrase.trim()).replace(/%20/g, "+")}`
-      : pfParamString;
+    const pfParamString = fields.map(([k, v]) => `${k}=${pfEncode(v)}`).join("&");
+    const withPassphrase = passphrase ? `${pfParamString}&passphrase=${pfEncode(passphrase)}` : pfParamString;
     const signature = md5(withPassphrase);
 
     return json({
