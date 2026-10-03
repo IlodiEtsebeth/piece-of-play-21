@@ -38,14 +38,61 @@ export type Database = {
         }
         Relationships: []
       }
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          order_id: string
+          product_id: string | null
+          product_name: string
+          quantity: number
+          unit_price_cents: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          order_id: string
+          product_id?: string | null
+          product_name: string
+          quantity?: number
+          unit_price_cents: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          order_id?: string
+          product_id?: string | null
+          product_name?: string
+          quantity?: number
+          unit_price_cents?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       orders: {
         Row: {
           amount_cents: number
           created_at: string
+          customer_name: string | null
           email: string
           id: string
           paid_at: string | null
           pf_payment_id: string | null
+          phone: string | null
           product_id: string | null
           product_name: string
           status: string
@@ -53,10 +100,12 @@ export type Database = {
         Insert: {
           amount_cents: number
           created_at?: string
+          customer_name?: string | null
           email: string
           id?: string
           paid_at?: string | null
           pf_payment_id?: string | null
+          phone?: string | null
           product_id?: string | null
           product_name: string
           status?: string
@@ -64,10 +113,12 @@ export type Database = {
         Update: {
           amount_cents?: number
           created_at?: string
+          customer_name?: string | null
           email?: string
           id?: string
           paid_at?: string | null
           pf_payment_id?: string | null
+          phone?: string | null
           product_id?: string | null
           product_name?: string
           status?: string
