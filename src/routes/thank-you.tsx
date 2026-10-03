@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { CheckCircle2, Download, Loader2 } from "lucide-react";
 import { SiteLayout } from "@/components/site-layout";
 import { supabase } from "@/integrations/supabase/client";
+import { cart } from "@/lib/cart";
 
 export const Route = createFileRoute("/thank-you")({
   component: ThankYouPage,
@@ -12,12 +13,12 @@ export const Route = createFileRoute("/thank-you")({
 });
 
 type OrderState = "loading" | "pending" | "paid" | "error";
+type DownloadItem = { product_name: string; quantity?: number; download_url: string | null; error?: string };
 
 function ThankYouPage() {
   const { order } = Route.useSearch();
   const [state, setState] = useState<OrderState>("loading");
-  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
-  const [productName, setProductName] = useState<string | null>(null);
+  const [downloads, setDownloads] = useState<DownloadItem[]>([]);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
@@ -38,10 +39,13 @@ function ThankYouPage() {
         setState("error");
         return;
       }
-      if (data.status === "paid" && data.download_url) {
-        setDownloadUrl(data.download_url);
-        setProductName(data.product_name ?? null);
+      if (data.status === "paid") {
+        const items: DownloadItem[] = Array.isArray(data.items)
+          ? data.items
+          : [{ product_name: data.product_name ?? "Your booklet", download_url: data.download_url ?? null }];
+        setDownloads(items);
         setState("paid");
+        cart.clear();
       } else if (data.status === "not_found") {
         setState("error");
         setErrorMsg("We couldn't find that order.");
@@ -77,19 +81,40 @@ function ThankYouPage() {
             <CheckCircle2 className="mx-auto h-14 w-14 text-primary" />
             <h1 className="mt-6 font-display text-3xl">Payment confirmed! 🎉</h1>
             <p className="mt-3 text-foreground/70">
-              Thank you for your order{productName ? ` of "${productName}"` : ""}. Your download is ready below.
+              Thank you for your order! Your {downloads.length === 1 ? "download is" : "downloads are"} ready below.
             </p>
-            {downloadUrl && (
-              <a
-                href={downloadUrl}
-                download
-                className="mt-7 inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-8 py-4 font-semibold shadow-soft hover:opacity-90 transition"
-              >
-                <Download className="h-5 w-5" /> Download your booklet
-              </a>
-            )}
+            <ul className="mt-8 space-y-3 text-left">
+              {downloads.map((d, i) => (
+                <li
+                  key={i}
+                  className="rounded-[1.5rem] surface-paper p-4 sm:p-5 shadow-soft flex flex-col sm:flex-row sm:items-center gap-3 justify-between"
+                >
+                  <span className="font-semibold">
+                    {d.product_name}
+                    {d.quantity && d.quantity > 1 ? (
+                      <span className="font-normal text-foreground/60"> ({d.quantity} licences)</span>
+                    ) : null}
+                  </span>
+                  {d.download_url ? (
+                    <a
+                      href={d.download_url}
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3 font-semibold shadow-soft hover:opacity-90 transition whitespace-nowrap"
+                    >
+                      <Download className="h-5 w-5" /> Download
+                    </a>
+                  ) : (
+                    <span className="text-sm text-foreground/70">
+                      This file isn't ready yet. Please WhatsApp or email me and I'll send it to you.
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
             <p className="mt-4 text-xs text-muted-foreground">
-              This download link is valid for 30 minutes. Save the file somewhere safe once downloaded.
+              These download links are valid for 30 minutes. Please save each file somewhere safe once downloaded.
             </p>
           </>
         ) : (

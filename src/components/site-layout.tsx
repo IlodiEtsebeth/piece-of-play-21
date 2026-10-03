@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { useState, type ReactNode } from "react";
-import { Menu, X, Facebook, Mail, MessageCircle } from "lucide-react";
+import { useEffect, useState, type ReactNode } from "react";
+import { Menu, X, Facebook, Mail, MessageCircle, ShoppingBag } from "lucide-react";
 import logo from "@/assets/logo.png";
 import handMadeBadge from "@/assets/hand-made-badge.png.asset.json";
 import { whatsappLink } from "@/lib/products";
+import { useCart } from "@/lib/cart";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -49,14 +50,18 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             >
               Shop now
             </Link>
+            <CartButton />
           </nav>
-          <button
-            className="md:hidden p-2 rounded-full hover:bg-blush"
-            aria-label="Menu"
-            onClick={() => setOpen((v) => !v)}
-          >
-            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          <div className="md:hidden flex items-center gap-1">
+            <CartButton />
+            <button
+              className="p-2 rounded-full hover:bg-blush"
+              aria-label="Menu"
+              onClick={() => setOpen((v) => !v)}
+            >
+              {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
         </div>
         {open && (
           <div className="md:hidden border-t border-border/60 bg-background">
@@ -79,6 +84,18 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       </header>
 
       <main className="flex-1">{children}</main>
+
+      <a
+        href={whatsappLink("Hi Ilodi 😊")}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat on WhatsApp"
+        className="fixed right-4 z-40 inline-flex items-center gap-2 rounded-full bg-[#25D366] text-white px-4 py-3 shadow-soft hover:opacity-90 transition"
+        style={{ bottom: "calc(1rem + env(safe-area-inset-bottom, 0px))" }}
+      >
+        <MessageCircle className="h-5 w-5" />
+        <span className="hidden sm:inline font-semibold text-sm">Chat to me</span>
+      </a>
 
       <footer className="mt-16 bg-primary text-primary-foreground">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 grid gap-10 md:grid-cols-3">
@@ -167,5 +184,26 @@ export function AccentBadge({
     >
       {children}
     </span>
+  );
+}
+
+function CartButton() {
+  const { count } = useCart();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const shown = mounted ? count : 0;
+  return (
+    <Link
+      to="/cart"
+      aria-label={shown > 0 ? `Cart, ${shown} ${shown === 1 ? "item" : "items"}` : "Cart"}
+      className="relative ml-1 p-2.5 rounded-full hover:bg-blush text-primary"
+    >
+      <ShoppingBag className="h-6 w-6" />
+      {shown > 0 && (
+        <span className="absolute -top-0.5 -right-0.5 min-w-5 h-5 px-1 rounded-full bg-primary text-primary-foreground text-[11px] font-bold flex items-center justify-center">
+          {shown > 99 ? "99+" : shown}
+        </span>
+      )}
+    </Link>
   );
 }

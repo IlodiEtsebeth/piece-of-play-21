@@ -1,10 +1,12 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { ArrowLeft, Check, Sparkles } from "lucide-react";
+import { ArrowLeft, Check, Sparkles, ShoppingBag } from "lucide-react";
 import { SiteLayout, AccentBadge } from "@/components/site-layout";
-import { fetchProductBySlug, resolveSignedUrl, resolvePreviewUrls, formatPrice } from "@/lib/products-db";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchProductBySlug, resolveSignedUrl, resolvePreviewUrls, formatPrice, type Product } from "@/lib/products-db";
+import { cart } from "@/lib/cart";
+import { QuantityPicker } from "@/components/quantity-picker";
+import { DigitalNotice } from "@/components/digital-notice";
 
 export const Route = createFileRoute("/shop/$slug")({
   component: ProductPage,
@@ -16,81 +18,72 @@ export const Route = createFileRoute("/shop/$slug")({
   }),
 });
 
-function PayFastCheckout({ productId }: { productId: string }) {
-  const [email, setEmail] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+function AddToCartBox({ product }: { product: Product }) {
+  const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(1);
+  const [added, setAdded] = useState(false);
 
-  async function handlePay(e: React.FormEvent) {
-    e.preventDefault();
-    setError(null);
-    setSubmitting(true);
-    try {
-      const { data, error: fnError } = await supabase.functions.invoke("payfast-initiate", {
-        body: { product_id: productId, email, site_url: window.location.origin },
-      });
-      if (fnError || !data || data.error) {
-        throw new Error(data?.error ?? fnError?.message ?? "Something went wrong");
-      }
-      const form = document.createElement("form");
-      form.method = "POST";
-      form.action = data.process_url;
-      for (const [key, value] of Object.entries(data.fields as Record<string, string>)) {
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = key;
-        input.value = value;
-        form.appendChild(input);
-      }
-      const sigInput = document.createElement("input");
-      sigInput.type = "hidden";
-      sigInput.name = "signature";
-      sigInput.value = data.signature;
-      form.appendChild(sigInput);
-      document.body.appendChild(form);
-      form.submit();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong, please try again.");
-      setSubmitting(false);
-    }
+  function addToCart() {
+    cart.add(
+      {
+        product_id: product.id,
+        slug: product.slug,
+        name: product.name,
+        price_cents: product.price_cents,
+        image_url: product.image_url,
+      },
+      quantity,
+    );
   }
 
   return (
     <>
       <AccentBadge tone="mustard">Ready to order?</AccentBadge>
-      <h2 className="mt-3 text-3xl">Pay securely with PayFast</h2>
+      <h2 className="mt-3 text-3xl">Add to your cart</h2>
       <p className="mt-3 text-foreground/75 max-w-lg mx-auto">
-        Enter your email and you'll be taken straight to PayFast to pay. Your download unlocks automatically the moment payment clears.
+        Add this booklet to your cart, or buy it now. You pay once for everything in your cart, and your downloads unlock
+        straight after payment.
       </p>
-      <form onSubmit={handlePay} className="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
-        <input
-          type="email"
-          required
-          placeholder="you@email.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="input flex-1"
-        />
+      <div className="mt-7 flex flex-col items-center gap-2">
+        <QuantityPicker value={quantity} onChange={setQuantity} />
+        <p className="text-xs text-foreground/60">Buying for a school? Choose one licence per teacher.</p>
+      </div>
+      <div className="mt-5 flex flex-col sm:flex-row items-center justify-center gap-3">
         <button
-          type="submit"
-          disabled={submitting}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground px-8 py-3.5 font-semibold shadow-soft hover:opacity-90 transition disabled:opacity-60 whitespace-nowrap"
+          type="button"
+          onClick={() => {
+            addToCart();
+            setAdded(true);
+          }}
+          className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-primary text-primary px-8 py-3 font-semibold hover:bg-blush transition whitespace-nowrap"
         >
-          {submitting ? "Redirecting…" : "Pay with PayFast"}
+          <ShoppingBag className="h-5 w-5" /> Add to cart
         </button>
-      </form>
-      <p className="mt-3 text-xs text-foreground/60">
-        By paying, you agree to our{" "}
-        <Link to="/terms" className="underline underline-offset-2 hover:text-primary">
-          Terms and Conditions
-        </Link>{" "}
-        and{" "}
-        <Link to="/refunds" className="underline underline-offset-2 hover:text-primary">
-          Refund Policy
-        </Link>
-        .
-      </p>
-      {error && <p className="mt-3 text-sm text-destructive">{error}</p>}
+        <button
+          type="button"
+          onClick={() => {
+            addToCart();
+            navigate({ to: "/cart" });
+          }}
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground px-8 py-3.5 font-semibold shadow-soft hover:opacity-90 transition whitespace-nowrap"
+        >
+          Buy now
+        </button>
+      </div>
+      {added && (
+        <p className="mt-4 text-sm text-primary" role="status">
+          <Check className="inline h-4 w-4 -mt-0.5" /> Added to your cart.{" "}
+          <Link to="/cart" className="underline underline-offset-2 font-semibold">
+            View cart
+          </Link>{" "}
+          or{" "}
+          <Link to="/shop" className="underline underline-offset-2">
+            keep shopping
+          </Link>
+          .
+        </p>
+      )}
+      <DigitalNotice className="mt-8 max-w-lg mx-auto text-left sm:text-center" />
     </>
   );
 }
@@ -221,8 +214,19 @@ function ProductPage() {
                 Coming soon — join the waitlist
               </div>
             </>
+          ) : product.is_free ? (
+            <>
+              <AccentBadge tone="mustard">Free resource</AccentBadge>
+              <h2 className="mt-3 text-3xl">This one is free!</h2>
+              <Link
+                to="/free"
+                className="mt-6 inline-flex items-center rounded-full bg-primary text-primary-foreground px-8 py-3.5 font-semibold shadow-soft hover:opacity-90"
+              >
+                Go to Free Resources
+              </Link>
+            </>
           ) : (
-            <PayFastCheckout productId={product.id} />
+            <AddToCartBox product={product} />
           )}
         </div>
       </section>
