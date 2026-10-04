@@ -21,8 +21,13 @@ export const Route = createFileRoute("/shop")({
 function ShopLayout() {
   const matches = useMatches();
   const isChild = matches.some((m) => m.routeId === "/shop/$slug");
-  if (isChild) return <Outlet />;
+  // Keep the product list in its own component so moving between the
+  // shop and a product page never changes the number of React hooks
+  // (that was causing the "Something went wrong" page).
+  return isChild ? <Outlet /> : <ShopList />;
+}
 
+function ShopList() {
   const { data: allProducts = [], isLoading } = useQuery({
     queryKey: ["products", "active"],
     queryFn: () => fetchProducts({ activeOnly: true }),
