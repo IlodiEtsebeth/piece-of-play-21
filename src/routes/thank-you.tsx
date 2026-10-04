@@ -114,7 +114,7 @@ function ThankYouPage() {
               ))}
             </ul>
             <p className="mt-4 text-xs text-muted-foreground">
-              These download links are valid for 30 minutes. Please save each file somewhere safe once downloaded.
+              Please save each file on your device once downloaded. Tip: bookmark this page, as you can come back to it any time to download your files again. If you lose it, just WhatsApp or email me.
             </p>
           </>
         ) : (
