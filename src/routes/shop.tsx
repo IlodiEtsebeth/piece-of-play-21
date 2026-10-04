@@ -38,13 +38,10 @@ function ShopLayout() {
   const activeCategories = categories.filter((c) => usedCategoryIds.has(c.id));
   const byCategory = categoryFilter ? products.filter((p) => p.category_id === categoryFilter) : products;
 
-  const [filter, setFilter] = useState<string | null>(null);
-  const ageGroups = Array.from(new Set(byCategory.map((p) => p.age_group))).sort();
-  const filtered = filter ? byCategory.filter((p) => p.age_group === filter) : byCategory;
+  const filtered = byCategory;
 
   function selectCategory(id: string | null) {
     setCategoryFilter(id);
-    setFilter(null);
   }
 
   return (
@@ -60,10 +57,10 @@ function ShopLayout() {
       </section>
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
         {activeCategories.length > 1 && (
-          <div className="flex flex-wrap gap-2 justify-center mb-4">
+          <div className="-mx-4 px-4 mb-8 flex gap-2 overflow-x-auto snap-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:px-0 sm:mb-10 sm:flex-wrap sm:justify-center sm:overflow-visible">
             <button
               onClick={() => selectCategory(null)}
-              className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
+              className={`shrink-0 snap-start whitespace-nowrap rounded-full px-4 py-2 sm:px-5 sm:py-2.5 text-sm font-semibold transition-colors ${
                 categoryFilter === null ? "bg-forest text-background" : "surface-paper text-foreground/70 hover:text-foreground"
               }`}
             >
@@ -73,34 +70,11 @@ function ShopLayout() {
               <button
                 key={c.id}
                 onClick={() => selectCategory(c.id)}
-                className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
+                className={`shrink-0 snap-start whitespace-nowrap rounded-full px-4 py-2 sm:px-5 sm:py-2.5 text-sm font-semibold transition-colors ${
                   categoryFilter === c.id ? "bg-forest text-background" : "surface-paper text-foreground/70 hover:text-foreground"
                 }`}
               >
                 {c.name}
-              </button>
-            ))}
-          </div>
-        )}
-        {ageGroups.length > 1 && (
-          <div className="flex flex-wrap gap-2 justify-center mb-10">
-            <button
-              onClick={() => setFilter(null)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                filter === null ? "bg-primary text-primary-foreground" : "surface-paper text-foreground/70 hover:text-foreground"
-              }`}
-            >
-              All
-            </button>
-            {ageGroups.map((ag) => (
-              <button
-                key={ag}
-                onClick={() => setFilter(ag)}
-                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                  filter === ag ? "bg-primary text-primary-foreground" : "surface-paper text-foreground/70 hover:text-foreground"
-                }`}
-              >
-                {ag}
               </button>
             ))}
           </div>
